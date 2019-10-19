@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n">
                     <i class="fas fa-user-circle"></i>
                 </div>
@@ -43,19 +43,19 @@
 
             <!-- Menu -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.php">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Shopping</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="index.php">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Ordering</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="index.php">
+                <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Setting</span></a>
             </li>
@@ -212,5 +212,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Database Table -->
+    <!-- <script src="js/database-table.js"></script> -->
 
 </html>
