@@ -115,21 +115,6 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Search -->
-                    <!-- <div class="card shadow mb-4">
-                        <div class="card-body" style="margin: -0.25rem;">
-                            <div class="table-responsive">
-                                <div class="input-group-append">
-                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
-                                   
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
                     <!-- DataTales Products -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
