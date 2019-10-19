@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,10 +26,6 @@
 
 <body id="page-top">
 
-    <?php
-    session_start();
-    ?>
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -42,22 +40,11 @@
                 <div class="sidebar-brand-text mx-3">Customer</div>
             </a>
 
-            <!-- Customer Name -->
-            <li class="sidebar-brand d-flex align-items-center justify-content-center">
-                <a class="nav-link">
-                    <span>
-                        <?php echo $_SESSION['contactFirstName'];
-                        echo '  ';
-                        echo $_SESSION['contactLastName']; ?>
-                    </span>
-                </a>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Menu -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Shopping</span></a>
@@ -69,7 +56,7 @@
                     <span>Ordering</span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="setting.php">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Setting</span></a>
@@ -121,6 +108,7 @@
                             <div class="table-responsive">
                                 <div class="input-group-append">
                                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
+                                   
                                     <button class="btn btn-primary" type="button">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
@@ -142,7 +130,7 @@
                                             <th>Description</th>
                                             <th>List Price</th>
                                             <th>Quantity</th>
-                                            <th><i class="fas fa-shopping-cart"></i></th>
+                                            <th><i class="fas fa-search fa-sm"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -154,14 +142,14 @@
 
                                         while ($row = mysqli_fetch_array($objQuery)) {
                                             ?>
-                                            <tr>
+                                            <tr class="list-data">
                                                 <th><?php echo $row['productName']; ?></th>
                                                 <th><?php echo $row['productScale']; ?></th>
                                                 <th><?php echo $row['productVendor']; ?></th>
                                                 <th><?php echo $row['productDescription']; ?></th>
                                                 <th><?php echo $row['buyPrice']; ?></th>
                                                 <th><?php echo $row['quantityInStock']; ?></th>
-                                                <th><i class="fas fa-shopping-cart"></td>
+                                                <th><?php echo 'jao' ?></td>
                                             </tr>
                                         <?php
                                         }
@@ -228,11 +216,7 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script> -->
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+    <!-- Database Table -->
+    <!-- <script src="js/database-table.js"></script> -->
 
 </html>

@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,10 +27,6 @@
 </head>
 
 <body id="page-top">
-
-    <?php
-    session_start();
-    ?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -57,13 +57,13 @@
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Menu -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Shopping</span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="ordering.php">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Ordering</span></a>
@@ -116,18 +116,19 @@
                 <div class="container-fluid">
 
                     <!-- Search -->
-                    <div class="card shadow mb-4">
+                    <!-- <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
                                 <div class="input-group-append">
                                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
+                                   
                                     <button class="btn btn-primary" type="button">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- DataTales Products -->
                     <div class="card shadow mb-4">
@@ -136,36 +137,44 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Product Name</th>
-                                            <th>Scale</th>
-                                            <th>Vendor</th>
-                                            <th>Description</th>
-                                            <th>List Price</th>
+                                            <th>Order ID</th>
+                                            <th>Order</th>
+                                            <th>Price Each</th>
                                             <th>Quantity</th>
-                                            <th><i class="fas fa-shopping-cart"></i></th>
+                                            <th>Payment</th>
+                                            <th>Required</th>
+                                            <th>Comments</th>
+                                            <th>Status</th>
+                                            <th><i class="fas fa-search fa-sm"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $mysqli = new mysqli("localhost", "root", "", "classicmodels");
+                                        if (isset($_SESSION['customerNumber'])) {
 
-                                        $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock FROM products";
-                                        $objQuery = mysqli_query($mysqli, $strSQL);
 
-                                        while ($row = mysqli_fetch_array($objQuery)) {
-                                            ?>
-                                            <tr>
-                                                <th><?php echo $row['productName']; ?></th>
-                                                <th><?php echo $row['productScale']; ?></th>
-                                                <th><?php echo $row['productVendor']; ?></th>
-                                                <th><?php echo $row['productDescription']; ?></th>
-                                                <th><?php echo $row['buyPrice']; ?></th>
-                                                <th><?php echo $row['quantityInStock']; ?></th>
-                                                <th><i class="fas fa-shopping-cart"></td>
-                                            </tr>
+                                            $mysqli = new mysqli("localhost", "root", "", "classicmodels");
+
+                                            $strSQL = "SELECT orderNumber, productCode, priceEach, quantityOrdered, amount, requiredDate, comments, status FROM orders join orderdetails using(orderNumber) join payments using(customerNumber) WHERE customerNumber = '" . $_SESSION['customerNumber'] . "' ";
+                                            $objQuery = mysqli_query($mysqli, $strSQL) or die(mysqli_error($mysqli));
+
+                                            while ($row = mysqli_fetch_array($objQuery)) {
+                                                ?>
+                                                <tr class="list-data">
+                                                    <th><?php echo $row['orderNumber']; ?></th>
+                                                    <th><?php echo $row['productCode']; ?></th>
+                                                    <th><?php echo $row['priceEach']; ?></th>
+                                                    <th><?php echo $row['quantityOrdered']; ?></th>
+                                                    <th><?php echo $row['amount']; ?></th>
+                                                    <th><?php echo $row['requiredDate']; ?></th>
+                                                    <th><?php echo $row['comments']; ?></th>
+                                                    <th><?php echo $row['status']; ?></th>
+                                                    <th><?php echo 'jao' ?></td>
+                                                </tr>
                                         <?php
+                                            }
+                                            mysqli_close($mysqli);
                                         }
-                                        mysqli_close($mysqli);
                                         ?>
                                     </tbody>
                                 </table>
@@ -200,6 +209,7 @@
     </a>
 
     <!-- Logout Modal-->
+
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -212,7 +222,8 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
+
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>
