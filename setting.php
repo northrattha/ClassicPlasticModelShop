@@ -115,64 +115,158 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Search -->
-                    <div class="card shadow mb-4">
-                        <div class="card-body" style="margin: -0.25rem;">
-                            <div class="table-responsive">
-                                <div class="input-group-append">
-                                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
+                    <!-- Page Heading -->
+                    <div class="row">
 
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
+                        <div class="col-lg-6">
+
+                            <!-- Circle Buttons -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Personal Details</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>Use Font Awesome Icons (included with this theme package) along with the circle buttons as shown in the examples below!</p>
+                                    <!-- Circle Buttons (Default) -->
+                                    <div class="mb-2">
+                                        <code>.btn-circle</code>
+                                    </div>
+                                    <a href="#" class="btn btn-primary btn-circle">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-success btn-circle">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-circle">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-warning btn-circle">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-circle">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    <!-- Circle Buttons (Small) -->
+                                    <div class="mt-4 mb-2">
+                                        <code>.btn-circle .btn-sm</code>
+                                    </div>
+                                    <a href="#" class="btn btn-primary btn-circle btn-sm">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-success btn-circle btn-sm">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-circle btn-sm">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-warning btn-circle btn-sm">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-circle btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    <!-- Circle Buttons (Large) -->
+                                    <div class="mt-4 mb-2">
+                                        <code>.btn-circle .btn-lg</code>
+                                    </div>
+                                    <a href="#" class="btn btn-primary btn-circle btn-lg">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-success btn-circle btn-lg">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-info btn-circle btn-lg">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-warning btn-circle btn-lg">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-circle btn-lg">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 </div>
                             </div>
+
                         </div>
-                    </div>
 
-                    <!-- DataTales Products -->
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Product Name</th>
-                                            <th>Scale</th>
-                                            <th>Vendor</th>
-                                            <th>Description</th>
-                                            <th>List Price</th>
-                                            <th>Quantity</th>
-                                            <th><i class="fas fa-search fa-sm"></i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $mysqli = new mysqli("localhost", "root", "", "classicmodels");
+                        <div class="col-lg-6">
 
-                                        $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock FROM products";
-                                        $objQuery = mysqli_query($mysqli, $strSQL);
-
-                                        while ($row = mysqli_fetch_array($objQuery)) {
-                                            ?>
-                                            <tr class="list-data">
-                                                <th><?php echo $row['productName']; ?></th>
-                                                <th><?php echo $row['productScale']; ?></th>
-                                                <th><?php echo $row['productVendor']; ?></th>
-                                                <th><?php echo $row['productDescription']; ?></th>
-                                                <th><?php echo $row['buyPrice']; ?></th>
-                                                <th><?php echo $row['quantityInStock']; ?></th>
-                                                <th><?php echo 'jao' ?></td>
-                                            </tr>
-                                        <?php
-                                        }
-                                        mysqli_close($mysqli);
-                                        ?>
-                                    </tbody>
-                                </table>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Address</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and the markup in the examples below. The examples below also use the <code>.text-white-50</code> helper class on the icons for additional styling, but it is not required.</p>
+                                    <a href="#" class="btn btn-primary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                        <span class="text">Split Button Primary</span>
+                                    </a>
+                                    <div class="my-2"></div>
+                                    <a href="#" class="btn btn-success btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text">Split Button Success</span>
+                                    </a>
+                                    <div class="my-2"></div>
+                                    <a href="#" class="btn btn-info btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-info-circle"></i>
+                                        </span>
+                                        <span class="text">Split Button Info</span>
+                                    </a>
+                                    <div class="my-2"></div>
+                                    <a href="#" class="btn btn-warning btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <span class="text">Split Button Warning</span>
+                                    </a>
+                                    <div class="my-2"></div>
+                                    <a href="#" class="btn btn-danger btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">Split Button Danger</span>
+                                    </a>
+                                    <div class="my-2"></div>
+                                    <a href="#" class="btn btn-secondary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </span>
+                                        <span class="text">Split Button Secondary</span>
+                                    </a>
+                                    <div class="my-2"></div>
+                                    <a href="#" class="btn btn-light btn-icon-split">
+                                        <span class="icon text-gray-600">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </span>
+                                        <span class="text">Split Button Primary</span>
+                                    </a>
+                                    <div class="mb-4"></div>
+                                    <p>Also works with small and large button classes!</p>
+                                    <a href="#" class="btn btn-primary btn-icon-split btn-sm">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                        <span class="text">Split Button Small</span>
+                                    </a>
+                                    <div class="my-2"></div>
+                                    <a href="#" class="btn btn-primary btn-icon-split btn-lg">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                        <span class="text">Split Button Large</span>
+                                    </a>
+                                </div>
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
                 <!-- /.container-fluid -->
 
