@@ -122,8 +122,9 @@
 
                             <!-- Circle Buttons -->
                             <div class="card shadow mb-4">
+
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Personal Details</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-user-circle"></i> Personal Details</h6>
                                 </div>
                                 <div class="card-body">
                                     <p>Use Font Awesome Icons (included with this theme package) along with the circle buttons as shown in the examples below!</p>
@@ -193,7 +194,7 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Address</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-map-marker-alt"></i> Address</h6>
                                 </div>
                                 <div class="card-body">
                                     <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and the markup in the examples below. The examples below also use the <code>.text-white-50</code> helper class on the icons for additional styling, but it is not required.</p>

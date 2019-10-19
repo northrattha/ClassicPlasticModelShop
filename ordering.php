@@ -170,8 +170,8 @@
                                                     <th><?php echo $row['comments']; ?></th>
                                                     <th><?php echo $row['status']; ?></th>
                                                     <th>
-                                                        <i class="fas fa-check-circle">
-                                                            <i class="fas fa-times-circle">
+                                                        <i class="fas fa-check-circle"></i>
+                                                        <i class="fas fa-times-circle"></i>
                                                     </th>
                                                 </tr>
                                         <?php
