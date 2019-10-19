@@ -119,7 +119,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
-                                <form class="form-horizontal" method="POST" action="index.php">
+                                <form class="form-horizontal" method="GET" action="index.php">
                                     <div class="input-group-append">
                                         <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
@@ -131,12 +131,7 @@
                         </div>
                     </div>
 
-                    <?php
-                    $search_text = isset($_POST['txt_keyword']) ? $_POST['txt_keyword'] : '';
-                    $sql = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock 
-                            FROM products 
-                            WHERE (productVendor LIKE '%$search_text%') OR (productScale = '%$search_text%')";
-                    ?>
+                    <?php $search_text = isset($_GET['txt_keyword']) ? $_GET['txt_keyword'] : ''; ?>
 
                     <!-- DataTales Products -->
                     <div class="card shadow mb-4">
@@ -185,57 +180,6 @@
                     </div>
                 </div>
                 <!-- /.container-fluid -->
-
-                <!-- <form class="form-horizontal" method="POST" action="index.php">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="txt_keyword" placeholder="ค้นหา">
-                        <input type="submit" value="ค้นหา" />
-                    </div>
-                </form>
-                <div class="row">
-                    <?php
-                    //$search_text = isset($_POST['txt_keyword']) ? $_POST['txt_keyword'] : '';
-                    //$sql = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock 
-                    //        FROM products WHERE (productVendor LIKE '%$search_text%') OR (productScale = '%$search_text%')";
-                    //echo $sql;
-                    ?>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Product Name555</th>
-                                <th>Scale</th>
-                                <th>Vendor</th>
-                                <th>Description</th>
-                                <th>List Price</th>
-                                <th>Quantity</th>
-                                <th><i class="fas fa-search fa-sm"></i></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $mysqli = new mysqli("localhost", "root", "", "classicmodels");
-                            $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock 
-                                            FROM products WHERE (productVendor LIKE '%$search_text%') OR (productScale LIKE '%$search_text%')";
-                            $objQuery = mysqli_query($mysqli, $strSQL);
-                            while ($row = mysqli_fetch_array($objQuery)) {
-                                ?>
-                                <tr>
-                                    <th><?php echo $row['productName']; ?></th>
-                                    <th><?php echo $row['productScale']; ?></th>
-                                    <th><?php echo $row['productVendor']; ?></th>
-                                    <th><?php echo $row['productDescription']; ?></th>
-                                    <th><?php echo $row['buyPrice']; ?></th>
-                                    <th><?php echo $row['quantityInStock']; ?></th>
-                                    <th><?php echo 'jao' ?></td>
-                                </tr>
-                            <?php
-                            }
-                            mysqli_close($mysqli);
-                            ?>
-                        </tbody>
-                    </table>
-                </div> -->
 
             </div>
             <!-- End of Main Content -->
@@ -289,12 +233,5 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script> -->
-    <!-- <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
-
-    <!-- Page level custom scripts -->
-    <!-- <script src="js/demo/datatables-demo.js"></script> -->
 
 </html>

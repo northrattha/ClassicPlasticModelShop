@@ -155,7 +155,10 @@
 
                                             $mysqli = new mysqli("localhost", "root", "", "classicmodels");
 
-                                            $strSQL = "SELECT orderNumber, productCode, priceEach, quantityOrdered, amount, requiredDate, comments, status FROM orders join orderdetails using(orderNumber) join payments using(customerNumber) WHERE customerNumber = '" . $_SESSION['customerNumber'] . "' ";
+                                            $strSQL = "SELECT orderNumber, productCode, priceEach, quantityOrdered, amount, requiredDate, comments, status 
+                                                FROM orders join orderdetails using(orderNumber) join payments using(customerNumber) 
+                                                WHERE customerNumber = '" . $_SESSION['customerNumber'] . "'
+                                                ORDER by orderNumber DESC";
                                             $objQuery = mysqli_query($mysqli, $strSQL) or die(mysqli_error($mysqli));
 
                                             while ($row = mysqli_fetch_array($objQuery)) {
@@ -241,12 +244,5 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script> -->
-    <!-- <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
-
-    <!-- Page level custom scripts -->
-    <!-- <script src="js/demo/datatables-demo.js"></script> -->
 
 </html>
