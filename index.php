@@ -115,45 +115,47 @@
                     </div>
 
                     <!-- DataTales Products -->
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Product Name</th>
-                                            <th>Scale</th>
-                                            <th>Vendor</th>
-                                            <th>Description</th>
-                                            <th>List Price</th>
-                                            <th>Quantity</th>
-                                            <th><i class="fas fa-search fa-sm"></i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $mysqli = new mysqli("localhost", "root", "261342", "classicmodels");
-
-                                        $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock FROM products";
-                                        $objQuery = mysqli_query($mysqli, $strSQL);
-
-                                        while ($row = mysqli_fetch_array($objQuery)) {
-                                            ?>
-                                            <tr class="list-data">
-                                                <th><?php echo $row['productName']; ?></th>
-                                                <th><?php echo $row['productScale']; ?></th>
-                                                <th><?php echo $row['productVendor']; ?></th>
-                                                <th><?php echo $row['productDescription']; ?></th>
-                                                <th><?php echo $row['buyPrice']; ?></th>
-                                                <th><?php echo $row['quantityInStock']; ?></th>
-                                                <th><?php echo 'jao' ?></td>
+                    <div class="container-fluid">
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Scale</th>
+                                                <th>Vendor</th>
+                                                <th>Description</th>
+                                                <th>List Price</th>
+                                                <th>Quantity</th>
+                                                <th><i class="fas fa-search fa-sm"></i></th>
                                             </tr>
-                                        <?php
-                                        }
-                                        mysqli_close($mysqli);
-                                        ?>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $mysqli = new mysqli("localhost", "root", "261342", "classicmodels");
+
+                                            $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock FROM products";
+                                            $objQuery = mysqli_query($mysqli, $strSQL);
+
+                                            while ($row = mysqli_fetch_array($objQuery)) {
+                                                ?>
+                                                <tr>
+                                                    <th><?php echo $row['productName']; ?></th>
+                                                    <th><?php echo $row['productScale']; ?></th>
+                                                    <th><?php echo $row['productVendor']; ?></th>
+                                                    <th><?php echo $row['productDescription']; ?></th>
+                                                    <th><?php echo $row['buyPrice']; ?></th>
+                                                    <th><?php echo $row['quantityInStock']; ?></th>
+                                                    <th><?php echo 'jao' ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            mysqli_close($mysqli);
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -212,5 +214,12 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script> -->
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
 
 </html>
