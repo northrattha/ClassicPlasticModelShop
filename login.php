@@ -24,7 +24,6 @@
 
 <body class="bg-gradient-primary">
 
-
   <?php
   session_start();
   include_once('connect.php');
@@ -47,6 +46,7 @@
     }
   }
   ?>
+  
   <div class="container">
     <!-- Outer Row -->
     <div class="row justify-content-center">

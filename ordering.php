@@ -1,7 +1,3 @@
-<?php
-session_start();
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +23,10 @@ session_start();
 </head>
 
 <body id="page-top">
+
+    <?php
+    session_start();
+    ?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -145,7 +145,7 @@ session_start();
                                             <th>Required</th>
                                             <th>Comments</th>
                                             <th>Status</th>
-                                            <th><i class="fas fa-search fa-sm"></i></th>
+                                            <th>Comfirm</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -169,7 +169,10 @@ session_start();
                                                     <th><?php echo $row['requiredDate']; ?></th>
                                                     <th><?php echo $row['comments']; ?></th>
                                                     <th><?php echo $row['status']; ?></th>
-                                                    <th><?php echo 'jao' ?></td>
+                                                    <th>
+                                                        <i class="fas fa-check-circle">
+                                                            <i class="fas fa-times-circle">
+                                                    </th>
                                                 </tr>
                                         <?php
                                             }

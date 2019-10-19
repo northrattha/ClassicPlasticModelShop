@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,6 +24,10 @@
 
 <body id="page-top">
 
+    <?php
+    session_start();
+    ?>
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -39,6 +41,17 @@
                 </div>
                 <div class="sidebar-brand-text mx-3">Customer</div>
             </a>
+
+            <!-- Customer Name -->
+            <li class="sidebar-brand d-flex align-items-center justify-content-center">
+                <a class="nav-link">
+                    <span>
+                        <?php echo $_SESSION['contactFirstName'];
+                        echo '  ';
+                        echo $_SESSION['contactLastName']; ?>
+                    </span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -108,7 +121,7 @@
                             <div class="table-responsive">
                                 <div class="input-group-append">
                                     <input type="text" class="form-control bg-light border-0 small" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
-                                   
+
                                     <button class="btn btn-primary" type="button">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
@@ -215,8 +228,5 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Database Table -->
-    <!-- <script src="js/database-table.js"></script> -->
 
 </html>
