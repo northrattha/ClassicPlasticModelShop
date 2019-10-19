@@ -139,7 +139,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-                                        <tr>
+                                        <tr align="center">
                                             <th>Product Name</th>
                                             <th>Scale</th>
                                             <th>Vendor</th>
@@ -161,13 +161,13 @@
                                         while ($row = mysqli_fetch_array($objQuery)) {
                                             ?>
                                             <tr>
-                                                <th><?php echo $row['productName']; ?></th>
-                                                <th><?php echo $row['productScale']; ?></th>
-                                                <th><?php echo $row['productVendor']; ?></th>
-                                                <th><?php echo $row['productDescription']; ?></th>
-                                                <th><?php echo $row['buyPrice']; ?></th>
-                                                <th><?php echo $row['quantityInStock']; ?></th>
-                                                <th><i class="fas fa-shopping-cart"></td>
+                                                <td align="center"><?php echo $row['productName']; ?></td>
+                                                <td align="center"><?php echo $row['productScale']; ?></td>
+                                                <td align="center"><?php echo $row['productVendor']; ?></td>
+                                                <td><?php echo $row['productDescription']; ?></td>
+                                                <td align="center"><?php echo $row['buyPrice']; ?></td>
+                                                <td align="center"><?php echo $row['quantityInStock']; ?></td>
+                                                <td align="center"><i class="fas fa-shopping-cart"></td>
                                             </tr>
                                         <?php
                                         }

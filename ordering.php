@@ -136,7 +136,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-                                        <tr>
+                                        <tr align="center">
                                             <th>Order ID</th>
                                             <th>Order</th>
                                             <th>Price Each</th>
@@ -164,18 +164,18 @@
                                             while ($row = mysqli_fetch_array($objQuery)) {
                                                 ?>
                                                 <tr class="list-data">
-                                                    <th><?php echo $row['orderNumber']; ?></th>
-                                                    <th><?php echo $row['productCode']; ?></th>
-                                                    <th><?php echo $row['priceEach']; ?></th>
-                                                    <th><?php echo $row['quantityOrdered']; ?></th>
-                                                    <th><?php echo $row['amount']; ?></th>
-                                                    <th><?php echo $row['requiredDate']; ?></th>
-                                                    <th><?php echo $row['comments']; ?></th>
-                                                    <th><?php echo $row['status']; ?></th>
-                                                    <th>
+                                                    <td align="center"><?php echo $row['orderNumber']; ?></td>
+                                                    <td align="center"><?php echo $row['productCode']; ?></td>
+                                                    <td align="center"><?php echo $row['priceEach']; ?></td>
+                                                    <td align="center"><?php echo $row['quantityOrdered']; ?></td>
+                                                    <td align="center"><?php echo $row['amount']; ?></td>
+                                                    <td align="center"><?php echo $row['requiredDate']; ?></td>
+                                                    <td><?php echo $row['comments']; ?></td>
+                                                    <td align="center"><?php echo $row['status']; ?></td>
+                                                    <td align="center">
                                                         <i class="fas fa-check-circle"></i>
                                                         <i class="fas fa-times-circle"></i>
-                                                    </th>
+                                                    </td>
                                                 </tr>
                                         <?php
                                             }
