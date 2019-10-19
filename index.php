@@ -213,7 +213,4 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Database Table -->
-    <!-- <script src="js/database-table.js"></script> -->
-
 </html>
