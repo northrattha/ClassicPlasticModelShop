@@ -31,22 +31,28 @@
   if (isset($_POST['submit'])) {
     $usernameid = $_POST['usernameid'];
 
-    $sql = "SELECT * FROM customers WHERE customerNumber = '" . $usernameid . "'";
+    $sql = "SELECT * FROM customers,employees WHERE customerNumber = '" . $usernameid . "' or employeeNumber = '" . $usernameid . "' ";
     $result = $con->query($sql);
-
     if ($result->num_rows > 0) {
       $row = $result->fetch_assoc();
       $_SESSION['customerNumber'] = $row['customerNumber'];
       $_SESSION['contactFirstName'] = $row['contactFirstName'];
       $_SESSION['contactLastName'] = $row['contactLastName'];
       // echo $row['customerNumber'];
-      header('location:index.php');
+      if (strlen((string) $usernameid) == "3") {
+        header('location:index.php');
+      }
+      if (strlen((string) $usernameid) == "4") {
+        header('location:admin.php');
+      }
     } else {
-      echo 'Username or Password is wrong';
+      echo "<script>";
+      echo "alert('Username or Password is wrong')";
+      echo "</script>";
     }
   }
   ?>
-  
+
   <div class="container">
     <!-- Outer Row -->
     <div class="row justify-content-center">
@@ -79,7 +85,7 @@
             </form>
             <hr>
             <div class="text-center">
-              <a class="small" href="register.html">Create an Account</a>
+              <a class="small" href="register.php">Create an Account</a>
             </div>
           </div>
         </div>
