@@ -42,7 +42,7 @@
       if (strlen((string) $usernameid) == "3") {
         header('location:index.php');
       }
-      if (strlen((string) $usernameid) == "4") {
+      else if (strlen((string) $usernameid) == "4") {
         header('location:admin.php');
       }
     } else {
