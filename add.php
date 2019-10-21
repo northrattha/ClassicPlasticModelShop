@@ -1,7 +1,7 @@
 <?php
 $host="localhost"; // กำหนด host
 $username="root"; // กำหนด username
-$password="123456"; // กำหนด Password
+$password=""; // กำหนด Password
 $db="data"; // กำหนดชื่อฐานข้อมูล
 $tb = "register"; //ชื่อตาราง
 $connect = mysqli_connect( $host,$username,$password) or die ("Database connection failed");// ติดต่อฐานข้อมูล
