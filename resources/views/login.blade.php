@@ -26,7 +26,7 @@
 
   <?php
   session_start();
-  include_once('connect.php');
+  include_once(app_path().'/resources/views/connect.php');
 
   if (isset($_POST['submit'])) {
     $usernameid = $_POST['usernameid'];

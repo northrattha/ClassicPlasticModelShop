@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('index');
 
 Route::get('/index', function () {
     return view('index');
@@ -23,9 +23,13 @@ Route::get('/add', function () {
     return view('add');
 })->name('add');
 
-Route::get('/connect', function () {
-    return view('connect');
-})->name('connect');
+// Route::get('/connect', function () {
+//     return view('connect');
+// })->name('connect');
+
+Route::get('/customer', function () {
+    return view('customer.blade');
+})->name('customer.blade');
 
 Route::get('/login', function () {
     return view('login');
@@ -42,3 +46,7 @@ Route::get('/register', function () {
 Route::get('/setting', function () {
     return view('setting');
 })->name('setting');
+
+Route::get('/welcome', function () {
+    return view('welcome');
+});

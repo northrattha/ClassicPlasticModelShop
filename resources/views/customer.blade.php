@@ -24,6 +24,10 @@
 
 <body id="page-top">
 
+    <?php
+    session_start();
+    ?>
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -32,11 +36,22 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('index') }}">
-                <!-- <div class="sidebar-brand-icon rotate-n">
+                <div class="sidebar-brand-icon rotate-n">
                     <i class="fas fa-user-circle"></i>
-                </div> -->
-                <div class="sidebar-brand-text mx-3">Classic Plastic Model Shop</div>
+                </div>
+                <div class="sidebar-brand-text mx-3">Customer</div>
             </a>
+
+            <!-- Customer Name -->
+            <li class="sidebar-brand d-flex align-items-center justify-content-center">
+                <a class="nav-link">
+                    <span>
+                        <?php echo $_SESSION['contactFirstName'];
+                        echo '  ';
+                        echo $_SESSION['contactLastName']; ?>
+                    </span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -45,63 +60,10 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('index') }}">
                     <i class="fas fa-shopping-bag"></i>
-                    <span>Shopping</span>
-                </a>
+                    <span>Shopping</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="" data-toggle="collapse" data-target="#collapseVendor" aria-expanded="true" aria-controls="collapseVendor">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>Vendor</span>
-                </a>
-                <div id="collapseVendor" class="collapse" aria-labelledby="headingVendor" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <?php
-                        $mysqli = new mysqli("localhost", "root", "", "classicmodels");
-
-                        $strSQL = "SELECT DISTINCT productVendor FROM products";
-                        $objQuery = mysqli_query($mysqli, $strSQL);
-
-                        while ($row = mysqli_fetch_array($objQuery)) {
-                            ?>
-                            <tr>
-                            <a class="collapse-item" href="#"><?php echo $row['productVendor']; ?></a>
-                            </tr>
-                        <?php
-                        }
-                        mysqli_close($mysqli);
-                        ?>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="" data-toggle="collapse" data-target="#collapseScale" aria-expanded="true" aria-controls="collapseScale">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>Scale</span>
-                </a>
-                <div id="collapseScale" class="collapse" aria-labelledby="headingScale" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                    <?php
-                        $mysqli = new mysqli("localhost", "root", "", "classicmodels");
-
-                        $strSQL = "SELECT DISTINCT productScale FROM products";
-                        $objQuery = mysqli_query($mysqli, $strSQL);
-
-                        while ($row = mysqli_fetch_array($objQuery)) {
-                            ?>
-                            <tr>
-                            <a class="collapse-item" href="#"><?php echo $row['productScale']; ?></a>
-                            </tr>
-                        <?php
-                        }
-                        mysqli_close($mysqli);
-                        ?>
-                    </div>
-                </div>
-            </li>
-
-            <!-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('ordering') }}">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Ordering</span></a>
@@ -111,15 +73,15 @@
                 <a class="nav-link" href="{{ route('setting') }}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Setting</span></a>
-            </li> -->
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Login</span></a>
+            <li class="nav-item active">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
             </li>
 
             <!-- Divider -->
@@ -244,7 +206,7 @@
     </a>
 
     <!-- Logout Modal-->
-    <!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -260,7 +222,7 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
