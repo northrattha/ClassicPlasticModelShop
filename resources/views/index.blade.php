@@ -35,7 +35,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.blade.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('index') }}">
                 <div class="sidebar-brand-icon rotate-n">
                     <i class="fas fa-user-circle"></i>
                 </div>
@@ -56,19 +56,19 @@
 
             <!-- Menu -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.blade.php">
+                <a class="nav-link" href="{{ route('index') }}">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Shopping</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="ordering.blade.php">
+                <a class="nav-link" href="{{ route('ordering') }}">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Ordering</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="setting.blade.php">
+                <a class="nav-link" href="{{ route('setting') }}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Setting</span></a>
             </li>
@@ -216,7 +216,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.blade.php">Logout</a>
+                    <a class="btn btn-primary" href="{{ route('login') }}">Logout</a>
                 </div>
             </div>
         </div>

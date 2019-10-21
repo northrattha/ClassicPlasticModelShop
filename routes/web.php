@@ -15,31 +15,30 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/index', function () {
     return view('index');
-});
+})->name('index');
 
 Route::get('/add', function () {
     return view('add');
-});
+})->name('add');
 
 Route::get('/connect', function () {
     return view('connect');
-});
+})->name('connect');
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name('login');
 
-Route::get('/Ordering', function () {
-    return view('Ordering');
-});
+Route::get('/ordering', function () {
+    return view('ordering');
+})->name('ordering');
 
 Route::get('/register', function () {
     return view('register');
-});
+})->name('register');
 
 Route::get('/setting', function () {
     return view('setting');
-});
+})->name('setting');
