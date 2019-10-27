@@ -50,3 +50,12 @@ Route::get('/setting', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+// check-connect to Database
+Route::get('check-connect', function () {
+    if (DB::connection()->getDatabaseName()) {
+        return "Yes! successfully connected to the DB: " . DB::connection()->getDatabaseName();
+    } else {
+        return 'Connection False !!';
+    }
+});

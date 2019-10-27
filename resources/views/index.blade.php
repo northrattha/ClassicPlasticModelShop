@@ -57,19 +57,24 @@
                 <div id="collapseVendor" class="collapse" aria-labelledby="headingVendor" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <?php
-                        $mysqli = new mysqli("localhost", "root", "", "classicmodels");
+                        // $mysqli = new mysqli("localhost", "root", "", "classicmodels");
 
-                        $strSQL = "SELECT DISTINCT productVendor FROM products";
-                        $objQuery = mysqli_query($mysqli, $strSQL);
+                        // $strSQL = "SELECT DISTINCT productVendor FROM products";
+                        // $objQuery = mysqli_query(DB, $strSQL);
 
-                        while ($row = mysqli_fetch_array($objQuery)) {
+                        $productVendors = DB::table('products')
+                            ->select('productVendor')
+                            ->distinct()
+                            ->pluck('productVendor');
+
+                        foreach ($productVendors as $productVendor) {
                             ?>
                             <tr>
-                            <a class="collapse-item" href="#"><?php echo $row['productVendor']; ?></a>
+                                <a class="collapse-item" href="#"><?php echo $productVendor; ?></a>
                             </tr>
                         <?php
                         }
-                        mysqli_close($mysqli);
+                        // mysqli_close($mysqli);
                         ?>
                     </div>
                 </div>
@@ -82,36 +87,22 @@
                 </a>
                 <div id="collapseScale" class="collapse" aria-labelledby="headingScale" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                    <?php
-                        $mysqli = new mysqli("localhost", "root", "", "classicmodels");
-
-                        $strSQL = "SELECT DISTINCT productScale FROM products";
-                        $objQuery = mysqli_query($mysqli, $strSQL);
-
-                        while ($row = mysqli_fetch_array($objQuery)) {
+                        <?php
+                        $productScales = DB::table('products')
+                            ->select('productScale')
+                            ->distinct()
+                            ->pluck('productScale');
+                        foreach ($productScales as $productScale) {
                             ?>
                             <tr>
-                            <a class="collapse-item" href="#"><?php echo $row['productScale']; ?></a>
+                                <a class="collapse-item" href="#"><?php echo $productScale; ?></a>
                             </tr>
                         <?php
                         }
-                        mysqli_close($mysqli);
                         ?>
                     </div>
                 </div>
             </li>
-
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="{{ route('ordering') }}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Ordering</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('setting') }}">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Setting</span></a>
-            </li> -->
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -157,7 +148,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
-                                <form class="form-horizontal" method="GET" action="index.php">
+                                <form class="form-horizontal" method="GET" action="{{ route('index') }}">
                                     <div class="input-group-append">
                                         <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
@@ -189,27 +180,31 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $mysqli = new mysqli("localhost", "root", "", "classicmodels");
+                                        // $mysqli = new mysqli("localhost", "root", "", "classicmodels");
 
-                                        $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock 
-                                            FROM products
-                                            WHERE (productVendor LIKE '%$search_text%') OR (productScale LIKE '%$search_text%')";
-                                        $objQuery = mysqli_query($mysqli, $strSQL);
+                                        // $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock 
+                                        //     FROM products
+                                        //     WHERE (productVendor LIKE '%$search_text%') OR (productScale LIKE '%$search_text%')";
+                                        // $objQuery = mysqli_query($mysqli, $strSQL);
 
-                                        while ($row = mysqli_fetch_array($objQuery)) {
+                                        $productss = DB::table('products')
+                                            // ->where('productVendor', 'like', '%$search_text%')
+                                            // ->orWhere('productScale', 'like', '%$search_text%')
+                                            ->get();
+                                        foreach ($productss as $products) {
                                             ?>
                                             <tr>
-                                                <td align="center"><?php echo $row['productName']; ?></td>
-                                                <td align="center"><?php echo $row['productScale']; ?></td>
-                                                <td align="center"><?php echo $row['productVendor']; ?></td>
-                                                <td><?php echo $row['productDescription']; ?></td>
-                                                <td align="center"><?php echo $row['buyPrice']; ?></td>
-                                                <td align="center"><?php echo $row['quantityInStock']; ?></td>
+                                                <td align="center"><?php echo $products->productName; ?></td>
+                                                <td align="center"><?php echo $products->productScale; ?></td>
+                                                <td align="center"><?php echo $products->productVendor; ?></td>
+                                                <td><?php echo $products->productDescription; ?></td>
+                                                <td align="center"><?php echo $products->buyPrice; ?></td>
+                                                <td align="center"><?php echo $products->quantityInStock; ?></td>
                                                 <td align="center"><i class="fas fa-shopping-cart"></td>
                                             </tr>
                                         <?php
                                         }
-                                        mysqli_close($mysqli);
+                                        // mysqli_close($mysqli);
                                         ?>
                                     </tbody>
                                 </table>
@@ -242,25 +237,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ route('login') }}">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
