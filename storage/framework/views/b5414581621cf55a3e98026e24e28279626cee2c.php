@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('index') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo e(route('index')); ?>">
                 <!-- <div class="sidebar-brand-icon rotate-n">
                     <i class="fas fa-user-circle"></i>
                 </div> -->
@@ -43,7 +43,7 @@
 
             <!-- Menu -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{ route('index') }}">
+                <a class="nav-link" href="<?php echo e(route('index')); ?>">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Shopping</span>
                 </a>
@@ -108,7 +108,7 @@
             <hr class="sidebar-divider d-none d-md-block">
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">
+                <a class="nav-link" href="<?php echo e(route('login')); ?>">
                     <i class="fas fa-sign-in-alt"></i>
                     <span>Login</span></a>
             </li>
@@ -148,7 +148,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
-                                <form class="form-horizontal" method="GET" action="{{ route('index') }}">
+                                <form class="form-horizontal" method="GET" action="<?php echo e(route('index')); ?>">
                                     <div class="input-group-append">
                                         <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
@@ -248,4 +248,4 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-</html>
+</html><?php /**PATH C:\Users\Rattatammanoon\Desktop\classic_model_shop\resources\views/index.blade.php ENDPATH**/ ?>

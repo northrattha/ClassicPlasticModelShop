@@ -324,4 +324,4 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-</html>
+</html><?php /**PATH C:\Users\Rattatammanoon\Desktop\classic_model_shop\resources\views/setting.blade.php ENDPATH**/ ?>

@@ -9,12 +9,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel="icon" sizes="192x192" href="img/unicorn.png">
+    <link rel="icon" sizes="192x192" href="/img/unicorn.png">
 
     <title>Classic Plastic Model Shop</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="views/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
@@ -24,6 +24,10 @@
 
 <body id="page-top">
 
+    <?php
+    session_start();
+    ?>
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -31,86 +35,50 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('index') }}">
-                <!-- <div class="sidebar-brand-icon rotate-n">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+                <div class="sidebar-brand-icon rotate-n">
                     <i class="fas fa-user-circle"></i>
-                </div> -->
-                <div class="sidebar-brand-text mx-3">Classic Plastic Model Shop</div>
+                </div>
+                <div class="sidebar-brand-text mx-3">Customer</div>
             </a>
+
+            <!-- Customer Name -->
+            <li class="sidebar-brand d-flex align-items-center justify-content-center">
+                <a class="nav-link">
+                    <span>
+                    </span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Menu -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{ route('index') }}">
+                <a class="nav-link" href="index.php">
                     <i class="fas fa-shopping-bag"></i>
-                    <span>Shopping</span>
-                </a>
+                    <span>Shopping</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="" data-toggle="collapse" data-target="#collapseVendor" aria-expanded="true" aria-controls="collapseVendor">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>Vendor</span>
-                </a>
-                <div id="collapseVendor" class="collapse" aria-labelledby="headingVendor" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <?php
-                        // $mysqli = new mysqli("localhost", "root", "", "classicmodels");
-
-                        // $strSQL = "SELECT DISTINCT productVendor FROM products";
-                        // $objQuery = mysqli_query(DB, $strSQL);
-
-                        $productVendors = DB::table('products')
-                            ->select('productVendor')
-                            ->distinct()
-                            ->pluck('productVendor');
-
-                        foreach ($productVendors as $productVendor) {
-                            ?>
-                            <tr>
-                                <a class="collapse-item" href="#"><?php echo $productVendor; ?></a>
-                            </tr>
-                        <?php
-                        }
-                        // mysqli_close($mysqli);
-                        ?>
-                    </div>
-                </div>
+                <a class="nav-link" href="ordering.php">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Ordering</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="" data-toggle="collapse" data-target="#collapseScale" aria-expanded="true" aria-controls="collapseScale">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>Scale</span>
-                </a>
-                <div id="collapseScale" class="collapse" aria-labelledby="headingScale" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <?php
-                        $productScales = DB::table('products')
-                            ->select('productScale')
-                            ->distinct()
-                            ->pluck('productScale');
-                        foreach ($productScales as $productScale) {
-                            ?>
-                            <tr>
-                                <a class="collapse-item" href="#"><?php echo $productScale; ?></a>
-                            </tr>
-                        <?php
-                        }
-                        ?>
-                    </div>
-                </div>
+                <a class="nav-link" href="setting.php">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Setting</span></a>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Login</span></a>
+            <li class="nav-item active">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
             </li>
 
             <!-- Divider -->
@@ -148,7 +116,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
-                                <form class="form-horizontal" method="GET" action="{{ route('index') }}">
+                                <form class="form-horizontal" method="GET" action="index.php">
                                     <div class="input-group-append">
                                         <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
@@ -180,31 +148,27 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        // $mysqli = new mysqli("localhost", "root", "", "classicmodels");
+                                        $mysqli = new mysqli("localhost", "root", "", "classicmodels");
 
-                                        // $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock 
-                                        //     FROM products
-                                        //     WHERE (productVendor LIKE '%$search_text%') OR (productScale LIKE '%$search_text%')";
-                                        // $objQuery = mysqli_query($mysqli, $strSQL);
+                                        $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock 
+                                            FROM products
+                                            WHERE (productVendor LIKE '%$search_text%') OR (productScale LIKE '%$search_text%')";
+                                        $objQuery = mysqli_query($mysqli, $strSQL);
 
-                                        $productss = DB::table('products')
-                                            // ->where('productVendor', 'like', '%$search_text%')
-                                            // ->orWhere('productScale', 'like', '%$search_text%')
-                                            ->get();
-                                        foreach ($productss as $products) {
+                                        while ($row = mysqli_fetch_array($objQuery)) {
                                             ?>
                                             <tr>
-                                                <td align="center"><?php echo $products->productName; ?></td>
-                                                <td align="center"><?php echo $products->productScale; ?></td>
-                                                <td align="center"><?php echo $products->productVendor; ?></td>
-                                                <td><?php echo $products->productDescription; ?></td>
-                                                <td align="center"><?php echo $products->buyPrice; ?></td>
-                                                <td align="center"><?php echo $products->quantityInStock; ?></td>
+                                                <td align="center"><?php echo $row['productName']; ?></td>
+                                                <td align="center"><?php echo $row['productScale']; ?></td>
+                                                <td align="center"><?php echo $row['productVendor']; ?></td>
+                                                <td><?php echo $row['productDescription']; ?></td>
+                                                <td align="center"><?php echo $row['buyPrice']; ?></td>
+                                                <td align="center"><?php echo $row['quantityInStock']; ?></td>
                                                 <td align="center"><i class="fas fa-shopping-cart"></td>
                                             </tr>
                                         <?php
                                         }
-                                        // mysqli_close($mysqli);
+                                        mysqli_close($mysqli);
                                         ?>
                                     </tbody>
                                 </table>
@@ -238,6 +202,25 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -248,4 +231,4 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-</html>
+</html><?php /**PATH C:\Users\Rattatammanoon\Desktop\classic_model_shop\resources\views/jao.blade.php ENDPATH**/ ?>
