@@ -88,17 +88,30 @@
                 <div id="collapseScale" class="collapse" aria-labelledby="headingScale" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <?php
-                        $productScales = DB::table('products')
-                            ->select('productScale')
-                            ->distinct()
-                            ->pluck('productScale');
-                        foreach ($productScales as $productScale) {
+                        // $productScales = DB::table('products')
+                        //     ->select('productScale')
+                        //     ->distinct()
+                        //     ->pluck('productScale');
+
+                        //$flights = App\Flight::all();
+                        $flights = App\Flight::orderBy('productScale')->distinct()->get();
+                        foreach ($flights as $flight) {
                             ?>
                             <tr>
-                                <a class="collapse-item" href="#"><?php echo $productScale; ?></a>
+                                <a class="collapse-item" href="#"><?php echo $flight->productScale; ?></a>
                             </tr>
                         <?php
                         }
+                        ?>
+                        <?php
+                        // foreach ($productScales as $productScale) {
+                        ?>
+                        <!-- <tr>
+                                <a class="collapse-item" href="#"><?php //echo $productScale; 
+                                                                    ?></a>
+                            </tr> -->
+                        <?php
+                        //}
                         ?>
                     </div>
                 </div>
@@ -188,8 +201,8 @@
                                         // $objQuery = mysqli_query($mysqli, $strSQL);
 
                                         $productss = DB::table('products')
-                                            // ->where('productVendor', 'like', '%$search_text%')
-                                            // ->orWhere('productScale', 'like', '%$search_text%')
+                                            ->where('productVendor', 'like', '%' . $search_text . '%')
+                                            ->orWhere('productScale', 'like', '%' . $search_text . '%')
                                             ->get();
                                         foreach ($productss as $products) {
                                             ?>
