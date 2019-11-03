@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Home Page
 Route::get('/', function () {
     return view('index');
 })->name('index');
@@ -19,37 +19,51 @@ Route::get('/index', function () {
     return view('index');
 })->name('index');
 
-Route::get('/add', function () {
-    return view('add');
-})->name('add');
 
-// Route::get('/connect', function () {
-//     return view('connect');
-// })->name('connect');
+// Admin Home Page
+Route::get('/admin', function () {
+    return view('admin-shopping');
+});
 
-Route::get('/customer', function () {
-    return view('customer.blade');
-})->name('customer.blade');
+
+// Admin - Sales
+Route::get('/admin-shopping', function () {
+    return view('admin-shopping');
+})->name('admin-shopping');
+
+Route::get('/admin-stock', function () {
+    return view('admin-stock');
+})->name('admin-stock');
+
+Route::get('/admin-order', function () {
+    return view('admin-order');
+})->name('admin-order');
+
+Route::get('/admin-member', function () {
+    return view('admin-member');
+})->name('admin-member');
+
+Route::get('/admin-member-register', function () {
+    return view('admin-member-register');
+})->name('admin-member-register');
+
+
+// Admin - VP Sales and Sales Manager
+Route::get('/admin-ERM', function () {
+    return view('admin-ERM');
+})->name('admin-ERM');
+
+
+// Admin - VP Marketing
+Route::get('/admin-marketing', function () {
+    return view('admin-marketing');
+})->name('admin-marketing');
+
 
 Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-Route::get('/ordering', function () {
-    return view('ordering');
-})->name('ordering');
-
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-
-Route::get('/setting', function () {
-    return view('setting');
-})->name('setting');
-
-Route::get('/welcome', function () {
-    return view('welcome');
-});
 
 // check-connect to Database
 Route::get('check-connect', function () {
@@ -59,3 +73,11 @@ Route::get('check-connect', function () {
         return 'Connection False !!';
     }
 });
+
+Route::get('/welcome', function () {
+    return view('welcome');
+});
+
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');

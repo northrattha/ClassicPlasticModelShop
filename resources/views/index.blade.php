@@ -32,9 +32,6 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('index') }}">
-                <!-- <div class="sidebar-brand-icon rotate-n">
-                    <i class="fas fa-user-circle"></i>
-                </div> -->
                 <div class="sidebar-brand-text mx-3">Classic Plastic Model Shop</div>
             </a>
 
@@ -57,24 +54,17 @@
                 <div id="collapseVendor" class="collapse" aria-labelledby="headingVendor" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <?php
-                        // $mysqli = new mysqli("localhost", "root", "", "classicmodels");
-
-                        // $strSQL = "SELECT DISTINCT productVendor FROM products";
-                        // $objQuery = mysqli_query(DB, $strSQL);
-
-                        $productVendors = DB::table('products')
-                            ->select('productVendor')
-                            ->distinct()
-                            ->pluck('productVendor');
+                        $productVendors = App\Products::groupBy('productVendor')->get();
 
                         foreach ($productVendors as $productVendor) {
                             ?>
-                            <tr>
-                                <a class="collapse-item" href="#"><?php echo $productVendor; ?></a>
-                            </tr>
+                            <form class="form-horizontal" method="GET" action="{{ route('index') }}">
+                                <tr>
+                                    <button style="font-size:small; text-align:left" class="form-control bg-light border-0 " name="txt_keyword" style="" type="submit" value="<?php echo $productVendor->productVendor; ?>"><?php echo $productVendor->productVendor; ?></button>
+                                </tr>
+                            </form>
                         <?php
                         }
-                        // mysqli_close($mysqli);
                         ?>
                     </div>
                 </div>
@@ -88,30 +78,17 @@
                 <div id="collapseScale" class="collapse" aria-labelledby="headingScale" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <?php
-                        // $productScales = DB::table('products')
-                        //     ->select('productScale')
-                        //     ->distinct()
-                        //     ->pluck('productScale');
+                        $productScales = App\Products::groupBy('productScale')->get();
 
-                        //$flights = App\Flight::all();
-                        $flights = App\Flight::orderBy('productScale')->distinct()->get();
-                        foreach ($flights as $flight) {
+                        foreach ($productScales as $productScale) {
                             ?>
-                            <tr>
-                                <a class="collapse-item" href="#"><?php echo $flight->productScale; ?></a>
-                            </tr>
+                            <form class="form-horizontal" method="GET" action="{{ route('index') }}">
+                                <tr>
+                                    <button style="font-size:small; text-align:left" class="form-control bg-light border-0 small" name="txt_keyword" type="submit" value="<?php echo $productScale->productScale; ?>"><?php echo $productScale->productScale; ?></button>
+                                </tr>
+                            </form>
                         <?php
                         }
-                        ?>
-                        <?php
-                        // foreach ($productScales as $productScale) {
-                        ?>
-                        <!-- <tr>
-                                <a class="collapse-item" href="#"><?php //echo $productScale; 
-                                                                    ?></a>
-                            </tr> -->
-                        <?php
-                        //}
                         ?>
                     </div>
                 </div>
@@ -147,7 +124,7 @@
                 <nav class="navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                     <div style="padding: 0.75rem 0.5rem">
                         <div class="d-flex bd-highlight">
-                            <div class="p-2 flex-grow-1 bd-highlight">Point 1300</div>
+                            <div class="p-2 flex-grow-1 bd-highlight"></div>
                             <div class="p-2 bd-highlight">Classic Plastic Model Shop</div>
                         </div>
                     </div>
@@ -188,36 +165,25 @@
                                             <th>Description</th>
                                             <th>List Price</th>
                                             <th>Quantity</th>
-                                            <th><i class="fas fa-shopping-cart"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        // $mysqli = new mysqli("localhost", "root", "", "classicmodels");
-
-                                        // $strSQL = "SELECT productName, productScale, productVendor, productDescription, buyPrice, quantityInStock 
-                                        //     FROM products
-                                        //     WHERE (productVendor LIKE '%$search_text%') OR (productScale LIKE '%$search_text%')";
-                                        // $objQuery = mysqli_query($mysqli, $strSQL);
-
-                                        $productss = DB::table('products')
-                                            ->where('productVendor', 'like', '%' . $search_text . '%')
+                                        $products = App\Products::where('productVendor', 'like', '%' . $search_text . '%')
                                             ->orWhere('productScale', 'like', '%' . $search_text . '%')
                                             ->get();
-                                        foreach ($productss as $products) {
+                                        foreach ($products as $product) {
                                             ?>
                                             <tr>
-                                                <td align="center"><?php echo $products->productName; ?></td>
-                                                <td align="center"><?php echo $products->productScale; ?></td>
-                                                <td align="center"><?php echo $products->productVendor; ?></td>
-                                                <td><?php echo $products->productDescription; ?></td>
-                                                <td align="center"><?php echo $products->buyPrice; ?></td>
-                                                <td align="center"><?php echo $products->quantityInStock; ?></td>
-                                                <td align="center"><i class="fas fa-shopping-cart"></td>
+                                                <td align="center"><?php echo $product->productName; ?></td>
+                                                <td align="center"><?php echo $product->productScale; ?></td>
+                                                <td align="center"><?php echo $product->productVendor; ?></td>
+                                                <td><?php echo $product->productDescription; ?></td>
+                                                <td align="center"><?php echo $product->buyPrice; ?></td>
+                                                <td align="center"><?php echo $product->quantityInStock; ?></td>
                                             </tr>
                                         <?php
                                         }
-                                        // mysqli_close($mysqli);
                                         ?>
                                     </tbody>
                                 </table>

@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Flight extends Model
+class Customers extends Model
 {
     //
-    protected $table = 'products';
+    protected $table = 'customers';
 }
