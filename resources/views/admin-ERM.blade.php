@@ -54,7 +54,7 @@
                 <div id="collapseVendor" class="collapse" aria-labelledby="headingVendor" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <?php
-                        $productVendors = App\Flight::groupBy('productVendor')->get();
+                        $productVendors = App\Products::groupBy('productVendor')->get();
 
                         foreach ($productVendors as $productVendor) {
                             ?>
@@ -78,13 +78,13 @@
                 <div id="collapseScale" class="collapse" aria-labelledby="headingScale" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <?php
-                        $flights = App\Flight::groupBy('productScale')->get();
+                        $Products = App\Products::groupBy('productScale')->get();
 
-                        foreach ($flights as $flight) {
+                        foreach ($Products as $Product) {
                             ?>
                             <form class="form-horizontal" method="GET" action="{{ route('admin-shopping') }}">
                                 <tr>
-                                    <button style="font-size:small; text-align:left" class="form-control bg-light border-0 small" name="txt_keyword" type="submit" value="<?php echo $flight->productScale; ?>"><?php echo $flight->productScale; ?></button>
+                                    <button style="font-size:small; text-align:left" class="form-control bg-light border-0 small" name="txt_keyword" type="submit" value="<?php echo $Product->productScale; ?>"><?php echo $Product->productScale; ?></button>
                                 </tr>
                             </form>
                         <?php
@@ -157,7 +157,15 @@
                     <div style="padding: 0.75rem 0.5rem">
                         <div class="d-flex bd-highlight">
                             <div class="p-2 flex-grow-1 bd-highlight"></div>
-                            <div class="p-2 bd-highlight">Classic Plastic Model Shop</div>
+                            <div class="p-2 bd-highlight">
+                                <?php
+                                $id = Auth::user()->id;
+                                $employee = App\Employees::where('employeeNumber', '=', $id)->first();
+                                ?>
+                                <?php echo $id; ?>
+                                <?php echo $employee->firstName; ?>
+                                <?php echo $employee->lastName; ?>
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -202,7 +210,7 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $productss = App\Flight::where('productVendor', 'like', '%' . $search_text . '%')
+                                        $productss = App\Products::where('productVendor', 'like', '%' . $search_text . '%')
                                             ->orWhere('productScale', 'like', '%' . $search_text . '%')
                                             ->get();
                                         foreach ($productss as $products) {

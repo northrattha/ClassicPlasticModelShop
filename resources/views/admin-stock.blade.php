@@ -54,7 +54,7 @@
                 <div id="collapseVendor" class="collapse" aria-labelledby="headingVendor" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <?php
-                        $productVendors = App\Flight::groupBy('productVendor')->get();
+                        $productVendors = App\Products::groupBy('productVendor')->get();
 
                         foreach ($productVendors as $productVendor) {
                             ?>
@@ -78,13 +78,13 @@
                 <div id="collapseScale" class="collapse" aria-labelledby="headingScale" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <?php
-                        $flights = App\Flight::groupBy('productScale')->get();
+                        $Products = App\Products::groupBy('productScale')->get();
 
-                        foreach ($flights as $flight) {
+                        foreach ($Products as $Product) {
                             ?>
                             <form class="form-horizontal" method="GET" action="{{ route('admin-shopping') }}">
                                 <tr>
-                                    <button style="font-size:small; text-align:left" class="form-control bg-light border-0 small" name="txt_keyword" type="submit" value="<?php echo $flight->productScale; ?>"><?php echo $flight->productScale; ?></button>
+                                    <button style="font-size:small; text-align:left" class="form-control bg-light border-0 small" name="txt_keyword" type="submit" value="<?php echo $Product->productScale; ?>"><?php echo $Product->productScale; ?></button>
                                 </tr>
                             </form>
                         <?php
@@ -95,7 +95,7 @@
             </li>
 
             <hr class="sidebar-divider d-none d-md-block">
-            
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin-stock') }}">
                     <i class="fas fa-archive"></i>
@@ -148,7 +148,15 @@
                     <div style="padding: 0.75rem 0.5rem">
                         <div class="d-flex bd-highlight">
                             <div class="p-2 flex-grow-1 bd-highlight"></div>
-                            <div class="p-2 bd-highlight">Classic Plastic Model Shop</div>
+                            <div class="p-2 bd-highlight">
+                                <?php
+                                $id = Auth::user()->id;
+                                $employee = App\Employees::where('employeeNumber', '=', $id)->first();
+                                ?>
+                                <?php echo $id; ?>
+                                <?php echo $employee->firstName; ?>
+                                <?php echo $employee->lastName; ?>
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -161,7 +169,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
-                                <form class="form-horizontal" method="GET" action="{{ route('admin-shopping') }}">
+                                <form class="form-horizontal" method="GET" action="{{ route('admin-stock') }}">
                                     <div class="input-group-append">
                                         <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
@@ -181,31 +189,42 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
+                                        <a class="btn" href="{{ route('admin-stock') }}">
+                                            <i class="	fas fa-archive"></i>
+                                            <span>Add Stock</span></a>
+                                        <hr>
                                         <tr align="center">
+                                            <th>product Code</th>
                                             <th>Product Name</th>
+                                            <th>Product Line</th>
                                             <th>Scale</th>
                                             <th>Vendor</th>
                                             <th>Description</th>
-                                            <th>List Price</th>
                                             <th>Quantity</th>
-                                            <th><i class="fas fa-shopping-cart"></i></th>
+                                            <th>Buy Price</th>
+                                            <th>MSRP</th>
+                                            <th><i class="fas fa-archive"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $productss = App\Flight::where('productVendor', 'like', '%' . $search_text . '%')
+                                        $productss = App\Products::Where('productCode', 'like', '%' . $search_text . '%')
+                                            ->orwhere('productVendor', 'like', '%' . $search_text . '%')
                                             ->orWhere('productScale', 'like', '%' . $search_text . '%')
                                             ->get();
                                         foreach ($productss as $products) {
                                             ?>
                                             <tr>
+                                                <td align="center"><?php echo $products->productCode; ?></td>
                                                 <td align="center"><?php echo $products->productName; ?></td>
+                                                <td align="center"><?php echo $products->productLine; ?></td>
                                                 <td align="center"><?php echo $products->productScale; ?></td>
                                                 <td align="center"><?php echo $products->productVendor; ?></td>
                                                 <td><?php echo $products->productDescription; ?></td>
-                                                <td align="center"><?php echo $products->buyPrice; ?></td>
                                                 <td align="center"><?php echo $products->quantityInStock; ?></td>
-                                                <td align="center"><a class="btn btn-primary" href=""><i class="fas fa-shopping-cart"></i></a></td>
+                                                <td align="center"><?php echo $products->buyPrice; ?></td>
+                                                <td align="center"><?php echo $products->MSRP; ?></td>
+                                                <td align="center"><a class="btn" href=""><i class="fas fa-edit"></i></a></td>
                                             </tr>
                                         <?php
                                         }

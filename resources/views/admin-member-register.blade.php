@@ -34,7 +34,7 @@
         <div class="card o-hidden border-0 shadow-lg my-5">
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
-            <form class="user " action="{{ route('admin-member-register') }}" method="GET">
+            <form class="user" action="{{ route('admin-member-register') }}" method="GET">
               <div class="p-5">
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Create an Member</h1>
@@ -54,9 +54,9 @@
                 <div>
                   <input type="tel" class="form-control form-control-user" id="exampleInputphone" placeholder="Phone" name="phone"><br>
                 </div>
-                <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputsaleRep" placeholder="Sales Rep" name="salesRepEmployeeNumber" onKeyUp="IsNumeric(this.value,this)"><br>
-                </div>
+                <!-- <div> -->
+                <!-- <input type="text" class="form-control form-control-user" id="exampleInputsaleRep" placeholder="Sales Rep" name="salesRepEmployeeNumber" onKeyUp="IsNumeric(this.value,this)"><br> -->
+                <!-- </div> -->
                 <p>ADDRESS</p>
                 <hr>
                 <div>
@@ -79,9 +79,12 @@
                 </div>
                 <hr>
                 <div>
-                  <input type="submit" name="Add" class="btn btn-primary btn-user btn-block" value="SING UP">
-                  </a>
+                  <input type="submit" name="Add" href="{{ route('admin-member-register') }}" class="btn btn-primary btn-user btn-block" value="SING UP">
                 </div>
+                <hr>
+
+                <a href="{{ route('admin-member') }}" class="btn btn btn-user btn-block">BACK</a>
+
               </div>
             </form>
 
@@ -104,6 +107,7 @@
             </script>
 
             <?php
+            $id = Auth::user()->id;
             $data = [
               'customerNumber' => isset($_GET['customerNumber']) ? $_GET['customerNumber'] : '',
               'customerName' =>   isset($_GET['customerName']) ? $_GET['customerName'] : '',
@@ -116,7 +120,7 @@
               'state' =>  isset($_GET['state']) ? $_GET['state'] : '',
               'postalCode' =>  isset($_GET['postalCode']) ? $_GET['postalCode'] : '',
               'country' =>  isset($_GET['country']) ? $_GET['country'] : '',
-              // 'salesRepEmployeeNumber' =>  isset($_GET['salesRepEmployeeNumber']) ? $_GET['salesRepEmployeeNumber'] : '',
+              'salesRepEmployeeNumber' =>  $id,
               'creditLimit' => 0.0,
             ];
             if (
@@ -131,7 +135,6 @@
               // $data['country'] != ''
             ) {
               $customers = App\Customers::insert($data);
-              echo '<script>', 'alert("Add Member Completed.");', '</script>';
             }
             ?>
 
@@ -142,6 +145,25 @@
 
     </div>
 
+  </div>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="{{ route('admin-member') }}">Logout</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Bootstrap core JavaScript-->

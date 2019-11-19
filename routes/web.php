@@ -19,12 +19,23 @@ Route::get('/index', function () {
     return view('index');
 })->name('index');
 
+// login Page
+// Route::get('/login', function () {
+//     return view('login');
+// })->name('login');
+Route::get('/login','AutoController@login')->name('login');
+Route::post('/postlogin','AutoController@postlogin');
 
-// Admin Home Page
 Route::get('/admin', function () {
     return view('admin-shopping');
 });
 
+// Admin Register
+Route::get('/admin-register', function () {
+    return view('admin-register');
+})->name('admin-register');
+
+Route::POST('/login/addEmp','EmployeeController@create');
 
 // Admin - Sales
 Route::get('/admin-shopping', function () {
@@ -60,11 +71,6 @@ Route::get('/admin-marketing', function () {
 })->name('admin-marketing');
 
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-
-
 // check-connect to Database
 Route::get('check-connect', function () {
     if (DB::connection()->getDatabaseName()) {
@@ -77,7 +83,3 @@ Route::get('check-connect', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
-
-// Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');

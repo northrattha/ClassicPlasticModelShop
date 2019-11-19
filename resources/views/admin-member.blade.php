@@ -148,11 +148,18 @@
                     <div style="padding: 0.75rem 0.5rem">
                         <div class="d-flex bd-highlight">
                             <div class="p-2 flex-grow-1 bd-highlight"></div>
-                            <div class="p-2 bd-highlight">Classic Plastic Model Shop</div>
+                            <div class="p-2 bd-highlight">
+                                <?php
+                                $id = Auth::user()->id;
+                                $employee = App\Employees::where('employeeNumber', '=', $id)->first();
+                                ?>
+                                <?php echo $id; ?>
+                                <?php echo $employee->firstName; ?>
+                                <?php echo $employee->lastName; ?>
+                            </div>
                         </div>
                     </div>
                 </nav>
-
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -174,6 +181,7 @@
                         </div>
                     </div>
 
+
                     <?php $search_text = isset($_GET['txt_keyword']) ? $_GET['txt_keyword'] : ''; ?>
 
                     <!-- DataTales Products -->
@@ -182,12 +190,10 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-
-                                        <!-- Add Member -->
-                                        <a class="btn btn-primary" href="{{ route('admin-member-register') }}">Add Member</a>
-
-                                        <hr class="sidebar-divider d-none d-md-block">
-
+                                        <a class="btn" href="{{ route('admin-member-register') }}">
+                                            <i class="fas fa-user-plus"></i>
+                                            <span>Add Member</span></a>
+                                        <hr>
                                         <tr align="center">
                                             <th>ID</th>
                                             <th>Name</th>
@@ -195,9 +201,9 @@
                                             <th>Last Name</th>
                                             <th>Phone</th>
                                             <th>Address</th>
-                                            <th>Sales Rep</th>
+                                            <th>sales Rep</th>
                                             <th>Credit Limit</th>
-                                            <th><i class="fas fa-edit"></i></th>
+                                            <th><i class="fas fa-user-cog"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -225,7 +231,7 @@
                                                 </td>
                                                 <td align="center"><?php echo $customer->salesRepEmployeeNumber; ?></td>
                                                 <td align="center"><?php echo $customer->creditLimit; ?></td>
-                                                <td align="center"><i class="fas fa-edit"></i></td>
+                                                <td align="center"><a class="btn" href=""><i class="fas fa-user-edit"></i></a></td>
                                             </tr>
                                         <?php
                                         }
