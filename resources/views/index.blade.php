@@ -38,6 +38,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Shopping
+            </div>
+
             <!-- Menu -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('index') }}">
@@ -97,6 +102,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Admin
+            </div>
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('login') }}">
                     <i class="fas fa-sign-in-alt"></i>
@@ -104,12 +114,12 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            <!-- <hr class="sidebar-divider d-none d-md-block"> -->
 
             <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
+            <!-- <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -140,7 +150,7 @@
                             <div class="table-responsive">
                                 <form class="form-horizontal" method="GET" action="{{ route('index') }}">
                                     <div class="input-group-append">
-                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Product Vendor or Scale" aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
@@ -153,6 +163,78 @@
                     <?php $search_text = isset($_GET['txt_keyword']) ? $_GET['txt_keyword'] : ''; ?>
 
                     <!-- DataTales Products -->
+
+                    <!-- Show Promotions -->
+                    <?php
+                    $checkPromotions = App\Promotions::get()->count();
+                    $Promotions = App\Promotions::first();
+                    date_default_timezone_set('Asia/Bangkok');
+                    $Today = date('Y-m-d');
+                    // echo $checkPromotions;
+                    // echo $Today;
+                    if ($checkPromotions != 0) {
+                        ?>
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <div class="d-flex bd-highlight">
+                                                <div class="p-2 flex-grow-1 bd-highlight">
+                                                    <!-- <a class="btn" href="{{ route('admin-marketing') }}"> -->
+                                                    <i class="fas fa-bullhorn"></i>
+                                                    <span>Promotions: Buy 1 Get 1</span>
+                                                    <!-- </a> -->
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <tr align="center">
+                                                <th>Product Code</th>
+                                                <th>Product Name</th>
+                                                <th>Scale</th>
+                                                <th>Vendor</th>
+                                                <th width="40%">Description</th>
+                                                <th>List Price</th>
+                                                <th>Expiry Date</th>
+                                                <!-- <th><i class="fas fa-bullhorn"></i></th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                                $promotionss = App\Promotions::select('*')->get();
+                                                foreach ($promotionss as $promotions) {
+                                                    $productss = App\Products::Where('productCode', '=', $promotions->productCode)
+                                                        ->get();
+                                                    foreach ($productss as $products) {
+                                                        if ($promotions->expiryDate >= $Today) {
+                                                            ?>
+                                                        <tr>
+                                                            <td align="center"><?php echo $products->productCode; ?></td>
+                                                            <td align="center"><?php echo $products->productName; ?></td>
+                                                            <td align="center"><?php echo $products->productScale; ?></td>
+                                                            <td align="center"><?php echo $products->productVendor; ?></td>
+                                                            <td><?php echo $products->productDescription; ?></td>
+                                                            <td align="center"><?php echo $products->MSRP; ?></td>
+                                                            <td align="center"><?php echo $promotions->expiryDate; ?></td>
+
+                                                            <!-- <td align="center"><a class="btn" href=""><i class="fas fa-times"></i></a></td> -->
+
+                                                        </tr>
+                                            <?php
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
+
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -162,9 +244,9 @@
                                             <th>Product Name</th>
                                             <th>Scale</th>
                                             <th>Vendor</th>
-                                            <th>Description</th>
+                                            <th width="40%">Description</th>
                                             <th>List Price</th>
-                                            <th>Quantity</th>
+                                            <!-- <th>Quantity</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -179,8 +261,8 @@
                                                 <td align="center"><?php echo $product->productScale; ?></td>
                                                 <td align="center"><?php echo $product->productVendor; ?></td>
                                                 <td><?php echo $product->productDescription; ?></td>
-                                                <td align="center"><?php echo $product->buyPrice; ?></td>
-                                                <td align="center"><?php echo $product->quantityInStock; ?></td>
+                                                <td align="center"><?php echo $product->MSRP; ?></td>
+                                                <!-- <td align="center"><?php echo $product->quantityInStock; ?></td> -->
                                             </tr>
                                         <?php
                                         }

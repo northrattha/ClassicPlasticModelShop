@@ -34,19 +34,32 @@
         <div class="card o-hidden border-0 shadow-lg my-5">
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
-            <form class="user " action="{{ route('login') }}" method="GET">
+            <form class="user" action="/login/addEmp" method="POST">
+              {{csrf_field()}}
               <div class="p-5">
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Admin Register</h1>
                 </div>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputusernameid" placeholder="User ID" name="employeeNumber" onKeyUp="IsNumeric(this.value,this)"><br>
+                  <input type="text" class="form-control form-control-user" id="exampleInputusernameid" placeholder="Employee Number" name="id" onKeyUp="IsNumeric(this.value,this)"><br>
+                  @if(session('success'))
+                  <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{session('success')}}
+                  </div>
+                  @endif
                 </div>
                 <div>
                   <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" name="password"><br>
+                  @if(session('successPassword'))
+                  <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{session('successPassword')}}
+                  </div>
+                  @endif
                 </div>
                 <div>
-                  <input type="submit" name="Add" href="{{ route('login') }}" class="btn btn-primary btn-user btn-block" value="SING UP">
+                  <input type="submit" name="Add" class="btn btn-primary btn-user btn-block" value="SING UP">
                 </div>
               </div>
             </form>
@@ -69,24 +82,8 @@
               }
             </script>
 
-            <?php
-            $data = [
-              'employeeNumber' => isset($_GET['employeeNumber']) ? $_GET['employeeNumber'] : '',
-              'password' =>   isset($_GET['password']) ? $_GET['password'] : '',
-            ];
-            if (
-              $data['employeeNumber'] != ''
-            ) {
-              $user = new \App\User;
-              $user->id = 1076;
-              $user->password = bcrypt($data->password);
-              $user->save();
-            }
-            ?>
-
           </div>
         </div>
-
       </div>
 
     </div>

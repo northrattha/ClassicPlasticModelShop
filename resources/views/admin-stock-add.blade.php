@@ -140,16 +140,16 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin-ERM') }}">
-                        <i class="fas fa-address-book"></i>
-                        <span>ERM</span>
-                    </a>
-                </li>
-
             <?php
             }
             ?>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin-ERM') }}">
+                    <i class="fas fa-address-book"></i>
+                    <span>ERM</span>
+                </a>
+            </li>
 
             <?php
             if (strpos($employee->jobTitle, 'Marketing') || $employee->jobTitle == 'President') {
@@ -216,12 +216,12 @@
                 <div class="container-fluid">
 
                     <!-- Search -->
-                    <div class="card shadow mb-4">
+                    <!-- <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
-                                <form class="form-horizontal" method="GET" action="{{ route('admin-order') }}">
+                                <form class="form-horizontal" method="GET" action="{{ route('admin-stock') }}">
                                     <div class="input-group-append">
-                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Order Number or Status" aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Product Code, Vendor or Scale" aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
@@ -229,7 +229,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <?php $search_text = isset($_GET['txt_keyword']) ? $_GET['txt_keyword'] : ''; ?>
 
@@ -240,69 +240,103 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <div class="d-flex bd-highlight">
-                                            <div class="flex-grow-1 bd-highlight">
-                                                <a class="btn" href="{{ route('admin-order-add') }}">
-                                                    <i class="fas fa-cart-plus"></i>
-                                                    <span>Add Orders</span>
-                                                </a>
-                                            </div>
-                                            <!-- Show Status -->
-                                            <div class="bd-highlight">
-                                                <a class="btn dropdown-toggle" href="#" id="ShowStatus" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-bell"></i>
-                                                    <span>Status</span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ShowStatus">
-                                                    <?php
-                                                    $statuss = App\Orders::groupBy('status')->get();
-                                                    foreach ($statuss as $status) {
-                                                        ?>
-                                                        <form class="form-horizontal" method="GET" action="{{ route('admin-order') }}">
-                                                            <button style="font-size:small; text-align:left" class="dropdown-item" name="txt_keyword" style="" type="submit" value="<?php echo $status->status; ?>"><?php echo $status->status; ?></button>
-                                                        </form>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </div>
+                                            <div class="p-2 flex-grow-1 bd-highlight">
+                                                <!-- <a class="btn" href="{{ route('admin-marketing') }}"> -->
+                                                <i class="fas fa-archive"></i>
+                                                <span>Add Product</span>
+                                                <!-- </a> -->
                                             </div>
                                         </div>
                                         <hr>
                                         <tr align="center">
-                                            <th>Order Number</th>
-                                            <th>Order Date</th>
-                                            <th>Required Date</th>
-                                            <th>Shipped Date</th>
-                                            <th>Status</th>
-                                            <th width="40%">Comments</th>
-                                            <th>Customer Number</th>
-                                            <th><i class="fas fa-file-alt"></i></th>
+                                            <th width="8%">Product Code</th>
+                                            <th>Product Name</th>
+                                            <th width="10%">Product Line</th>
+                                            <th width="5%">Scale</th>
+                                            <th>Vendor</th>
+                                            <th>Description</th>
+                                            <th width="9%">Quantity</th>
+                                            <th width="8%">Buy Price</th>
+                                            <th width="7%">MSRP</th>
+                                            <th width="1%"><i class="fas fa-archive"></i></th>
                                         </tr>
+                                        @if(session('success'))
+                                        <div class="alert alert-danger alert-dismissible fade show">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            {{session('success')}}
+                                        </div>
+                                        @endif
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $Orderss = App\Orders::where('orderNumber', 'like', '%' . $search_text . '%')
-                                            ->orwhere('status', 'like', '%' . $search_text . '%')
-                                            ->orderBy('orderNumber', 'desc')
-                                            ->get();
-                                        foreach ($Orderss as $Orders) {
-                                            ?>
-                                            <tr>
-                                                <td align="center"><?php echo $Orders->orderNumber; ?></td>
-                                                <td align="center"><?php echo $Orders->orderDate; ?></td>
-                                                <td align="center"><?php echo $Orders->requiredDate; ?></td>
-                                                <td align="center"><?php echo $Orders->shippedDate; ?></td>
-                                                <td align="center"><?php echo $Orders->status; ?></td>
-                                                <td align="center"><?php echo $Orders->comments; ?></td>
-                                                <td align="center"><?php echo $Orders->customerNumber; ?></td>
-                                                <td align="center">
-                                                    <form class="form-horizontal" method="GET" action="{{ route('admin-order-edit') }}">
-                                                        <button style="text-align:center" class="btn" name="txt_keyword" type="submit" value="<?php echo $Orders->orderNumber; ?>"><i class="far fa-file-alt"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                        }
-                                        ?>
+                                        <form action="/admin-stock-add/addProducts" method="POST">
+                                            {{csrf_field()}}
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="productCode" placeholder="SXX_XXXX" name="productCode"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="productName" placeholder="Product Name" name="productName"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <select id="selectProductLine" class="selectpicker form-control bg-light border-0 small" data-live-search="true" title="Product Line" name="selectProductLine" OnChange="bind()">
+                                                    <?php
+                                                    $productliness = App\Productlines::get();
+                                                    foreach ($productliness as $productlines) {
+                                                        ?>
+                                                        <option value="<?php echo $productlines->productLine; ?>"><?php echo $productlines->productLine; ?></option>
+
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+
+                                                <script language="javascript">
+                                                    function bind() {
+                                                        document.getElementById("productLine").value = document.getElementById("selectProductLine").value;
+                                                    }
+                                                </script>
+
+                                                <input type="hidden" class="form-control bg-light border-0 small" id="productLine" placeholder="Product Line" name="productLine"><br>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="productScale" placeholder="X:Y" name="productScale"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="productVendor" placeholder="Vendor" name="productVendor"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="productDescription" placeholder="Description" name="productDescription"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="quantityInStock" placeholder="Integer Only" name="quantityInStock"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="buyPrice" placeholder="Buy Price" name="buyPrice"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="MSRP" placeholder="MSRP" name="MSRP"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <button class="btn" type="submit">
+                                                    <i class="fas fa-plus-circle"></i>
+                                                </button>
+                                            </td>
+                                        </form>
                                     </tbody>
                                 </table>
                             </div>

@@ -146,7 +146,7 @@
                         <span>ERM</span>
                     </a>
                 </li>
-
+                
             <?php
             }
             ?>
@@ -216,12 +216,12 @@
                 <div class="container-fluid">
 
                     <!-- Search -->
-                    <div class="card shadow mb-4">
+                    <!-- <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
                                 <form class="form-horizontal" method="GET" action="{{ route('admin-order') }}">
                                     <div class="input-group-append">
-                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Order Number or Status" aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
@@ -229,7 +229,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <?php $search_text = isset($_GET['txt_keyword']) ? $_GET['txt_keyword'] : ''; ?>
 
@@ -240,92 +240,81 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <div class="d-flex bd-highlight">
-                                            <div class="flex-grow-1 bd-highlight">
-                                                <a class="btn" href="{{ route('admin-order-add') }}">
-                                                    <i class="fas fa-cart-plus"></i>
-                                                    <span>Add Orders</span>
-                                                </a>
-                                            </div>
-                                            <!-- Show Status -->
-                                            <div class="bd-highlight">
-                                                <a class="btn dropdown-toggle" href="#" id="ShowStatus" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-bell"></i>
-                                                    <span>Status</span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ShowStatus">
-                                                    <?php
-                                                    $statuss = App\Orders::groupBy('status')->get();
-                                                    foreach ($statuss as $status) {
-                                                        ?>
-                                                        <form class="form-horizontal" method="GET" action="{{ route('admin-order') }}">
-                                                            <button style="font-size:small; text-align:left" class="dropdown-item" name="txt_keyword" style="" type="submit" value="<?php echo $status->status; ?>"><?php echo $status->status; ?></button>
-                                                        </form>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </div>
+                                            <div class="p-2 flex-grow-1 bd-highlight">
+                                                <!-- <a class="btn" href="{{ route('admin-order') }}"> -->
+                                                <i class="fas fa-shopping-cart"></i>
+                                                <?php
+                                                $Ordersdetail = App\Ordersdetails::where('orderNumber', 'like', '%' . $search_text . '%')->first();
+                                                ?>
+                                                <span>Order Number - <?php echo $Ordersdetail->orderNumber; ?></span>
+                                                <!-- </a> -->
                                             </div>
                                         </div>
                                         <hr>
                                         <tr align="center">
                                             <th>Order Number</th>
-                                            <th>Order Date</th>
-                                            <th>Required Date</th>
-                                            <th>Shipped Date</th>
-                                            <th>Status</th>
-                                            <th width="40%">Comments</th>
-                                            <th>Customer Number</th>
-                                            <th><i class="fas fa-file-alt"></i></th>
+                                            <th>Product Code</th>
+                                            <th>Quantity Ordered</th>
+                                            <th>Price Each</th>
+                                            <th>Order Line Number</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $Orderss = App\Orders::where('orderNumber', 'like', '%' . $search_text . '%')
-                                            ->orwhere('status', 'like', '%' . $search_text . '%')
-                                            ->orderBy('orderNumber', 'desc')
+                                        $Ordersdetailss = App\Ordersdetails::where('orderNumber', 'like', '%' . $search_text . '%')
+                                            ->orderBy('orderLineNumber')
                                             ->get();
-                                        foreach ($Orderss as $Orders) {
+                                        foreach ($Ordersdetailss as $Ordersdetails) {
                                             ?>
                                             <tr>
-                                                <td align="center"><?php echo $Orders->orderNumber; ?></td>
-                                                <td align="center"><?php echo $Orders->orderDate; ?></td>
-                                                <td align="center"><?php echo $Orders->requiredDate; ?></td>
-                                                <td align="center"><?php echo $Orders->shippedDate; ?></td>
-                                                <td align="center"><?php echo $Orders->status; ?></td>
-                                                <td align="center"><?php echo $Orders->comments; ?></td>
-                                                <td align="center"><?php echo $Orders->customerNumber; ?></td>
-                                                <td align="center">
-                                                    <form class="form-horizontal" method="GET" action="{{ route('admin-order-edit') }}">
-                                                        <button style="text-align:center" class="btn" name="txt_keyword" type="submit" value="<?php echo $Orders->orderNumber; ?>"><i class="far fa-file-alt"></i></button>
-                                                    </form>
-                                                </td>
+                                                <td align="center"><?php echo $Ordersdetails->orderNumber; ?></td>
+                                                <td align="center"><?php echo $Ordersdetails->productCode; ?></td>
+                                                <td align="center"><?php echo $Ordersdetails->quantityOrdered; ?></td>
+                                                <td align="center"><?php echo $Ordersdetails->priceEach; ?></td>
+                                                <td align="center"><?php echo $Ordersdetails->orderLineNumber; ?></td>
                                             </tr>
                                         <?php
                                         }
                                         ?>
                                     </tbody>
                                 </table>
+                                <hr>
+                                <div class="d-flex bd-highlight">
+                                    <div class="flex-grow-1 bd-highlight"></div>
+                                    <!-- Show Total -->
+                                    <?php
+                                    $totals = App\Ordersdetails::where('orderNumber', 'like', '%' . $search_text . '%')->get();
+                                    $sumTotal = 0;
+                                    foreach ($totals as $total) {
+                                        $sumTotal += $total->quantityOrdered * $total->priceEach;
+                                    }
+                                    ?>
+                                    <div class="bd-highlight">Total <?php echo $sumTotal; ?></div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.container-fluid -->
-
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Classic Plastic Model Shop 2019</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Classic Plastic Model Shop 2019</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->

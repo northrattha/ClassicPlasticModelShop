@@ -219,9 +219,9 @@
                     <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
-                                <form class="form-horizontal" method="GET" action="{{ route('admin-order') }}">
+                                <form class="form-horizontal" method="GET" action="{{ route('admin-payments') }}">
                                     <div class="input-group-append">
-                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Order Number or Status" aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Customer Number or CheckNumber" aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
@@ -237,68 +237,91 @@
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
+
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <div class="d-flex bd-highlight">
-                                            <div class="flex-grow-1 bd-highlight">
-                                                <a class="btn" href="{{ route('admin-order-add') }}">
-                                                    <i class="fas fa-cart-plus"></i>
-                                                    <span>Add Orders</span>
-                                                </a>
-                                            </div>
-                                            <!-- Show Status -->
-                                            <div class="bd-highlight">
-                                                <a class="btn dropdown-toggle" href="#" id="ShowStatus" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-bell"></i>
-                                                    <span>Status</span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ShowStatus">
-                                                    <?php
-                                                    $statuss = App\Orders::groupBy('status')->get();
-                                                    foreach ($statuss as $status) {
-                                                        ?>
-                                                        <form class="form-horizontal" method="GET" action="{{ route('admin-order') }}">
-                                                            <button style="font-size:small; text-align:left" class="dropdown-item" name="txt_keyword" style="" type="submit" value="<?php echo $status->status; ?>"><?php echo $status->status; ?></button>
-                                                        </form>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </div>
+                                            <div class="p-2 flex-grow-1 bd-highlight">
+                                                <i class="fas fa-credit-card"></i>
+                                                <span>Add Payment</span>
                                             </div>
                                         </div>
                                         <hr>
                                         <tr align="center">
-                                            <th>Order Number</th>
-                                            <th>Order Date</th>
-                                            <th>Required Date</th>
-                                            <th>Shipped Date</th>
-                                            <th>Status</th>
-                                            <th width="40%">Comments</th>
                                             <th>Customer Number</th>
-                                            <th><i class="fas fa-file-alt"></i></th>
+                                            <th>CheckNumber</th>
+                                            <th>Payment Date</th>
+                                            <th>Amount</th>
+                                            <th><i class="fas fa-credit-card"></i></th>
+                                        </tr>
+                                        @if(session('success'))
+                                        <div class="alert alert-danger alert-dismissible fade show">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            {{session('success')}}
+                                        </div>
+                                        @endif
+                                    </thead>
+                                    <tbody>
+                                        <form action="/admin-payments/addPayments" method="POST">
+                                            {{csrf_field()}}
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="customerNumber" placeholder="Customer Number" name="customerNumber"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="checkNumber" placeholder="CheckNumber" name="checkNumber"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="paymentDate" placeholder="Payment Date (Y-m-d)" name="paymentDate"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="amount" placeholder="Amount" name="amount"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <button class="btn" type="submit">
+                                                    <i class="fas fa-money-check-alt"></i>
+                                                </button>
+                                            </td>
+                                        </form>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="p-2 flex-grow-1 bd-highlight">
+                                                <i class="fas fa-money-check-alt"></i>
+                                                <span>Payments</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <tr align="center">
+                                            <th>Customer Number</th>
+                                            <th>CheckNumber</th>
+                                            <th>Payment Date</th>
+                                            <th>Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $Orderss = App\Orders::where('orderNumber', 'like', '%' . $search_text . '%')
-                                            ->orwhere('status', 'like', '%' . $search_text . '%')
-                                            ->orderBy('orderNumber', 'desc')
+                                        $Paymentss = App\Payments::where('customerNumber', 'like', '%' . $search_text . '%')
+                                            ->orwhere('checkNumber', 'like', $search_text)
+                                            ->orderBy('paymentDate', 'desc')
                                             ->get();
-                                        foreach ($Orderss as $Orders) {
+                                        foreach ($Paymentss as $Payments) {
                                             ?>
                                             <tr>
-                                                <td align="center"><?php echo $Orders->orderNumber; ?></td>
-                                                <td align="center"><?php echo $Orders->orderDate; ?></td>
-                                                <td align="center"><?php echo $Orders->requiredDate; ?></td>
-                                                <td align="center"><?php echo $Orders->shippedDate; ?></td>
-                                                <td align="center"><?php echo $Orders->status; ?></td>
-                                                <td align="center"><?php echo $Orders->comments; ?></td>
-                                                <td align="center"><?php echo $Orders->customerNumber; ?></td>
-                                                <td align="center">
-                                                    <form class="form-horizontal" method="GET" action="{{ route('admin-order-edit') }}">
-                                                        <button style="text-align:center" class="btn" name="txt_keyword" type="submit" value="<?php echo $Orders->orderNumber; ?>"><i class="far fa-file-alt"></i></button>
-                                                    </form>
-                                                </td>
+                                                <td align="center"><?php echo $Payments->customerNumber; ?></td>
+                                                <td align="center"><?php echo $Payments->checkNumber; ?></td>
+                                                <td align="center"><?php echo $Payments->paymentDate; ?></td>
+                                                <td align="center"><?php echo $Payments->amount; ?></td>
                                             </tr>
                                         <?php
                                         }

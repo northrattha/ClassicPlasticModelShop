@@ -38,6 +38,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Shopping
+            </div>
+
             <!-- Menu -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin-shopping') }}">
@@ -96,26 +101,70 @@
 
             <hr class="sidebar-divider d-none d-md-block">
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-stock') }}">
-                    <i class="fas fa-archive"></i>
-                    <span>Stock</span>
-                </a>
-            </li>
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Admin
+            </div>
+            <?php
+            $id = Auth::user()->id;
+            $employee = App\Employees::where('employeeNumber', '=', $id)->first();
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-order') }}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Order</span>
-                </a>
-            </li>
+            if ($employee->jobTitle == 'Sales Manager (NA)' || $employee->jobTitle == 'Sale Manager (EMEA)' || $employee->jobTitle == 'Sales Manager (APAC)' || $employee->jobTitle == 'Sales Rep' || strpos($employee->jobTitle, 'Sales') || $employee->jobTitle == 'President') {
+                ?>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-member') }}">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Member</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-stock') }}">
+                        <i class="fas fa-archive"></i>
+                        <span>Stock</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-order') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Order</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-payments') }}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-member') }}">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Member</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-ERM') }}">
+                        <i class="fas fa-address-book"></i>
+                        <span>ERM</span>
+                    </a>
+                </li>
+
+            <?php
+            }
+            ?>
+
+            <?php
+            if (strpos($employee->jobTitle, 'Marketing') || $employee->jobTitle == 'President') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-marketing') }}">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Marketing</span>
+                    </a>
+                </li>
+
+            <?php
+            }
+            ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -127,12 +176,12 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            <!-- <hr class="sidebar-divider d-none d-md-block"> -->
 
             <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
+            <!-- <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -156,6 +205,7 @@
                                 <?php echo $id; ?>
                                 <?php echo $employee->firstName; ?>
                                 <?php echo $employee->lastName; ?>
+                                - <?php echo $employee->jobTitle; ?>
                             </div>
                         </div>
                     </div>
@@ -171,7 +221,7 @@
                             <div class="table-responsive">
                                 <form class="form-horizontal" method="GET" action="{{ route('admin-stock') }}">
                                     <div class="input-group-append">
-                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Product Code, Vendor or Scale" aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
@@ -189,20 +239,41 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
-                                        <a class="btn" href="{{ route('admin-stock') }}">
-                                            <i class="	fas fa-archive"></i>
-                                            <span>Add Stock</span></a>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="flex-grow-1 bd-highlight">
+                                                <a class="btn" href="{{ route('admin-stock-add') }}">
+                                                    <i class="fas fa-archive"></i>
+                                                    <span>Add Product</span>
+                                                </a>
+                                            </div>
+                                            <!-- Show Status -->
+                                            <div class="bd-highlight">
+                                                <div class="flex-grow-1 bd-highlight">
+                                                    <a class="btn" href="{{ route('admin-stock-edit') }}">
+                                                        <i class="fas fa-cog"></i>
+                                                        <span>Edit Product</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <hr>
+                                        @if(session('success'))
+                                        <div class="alert alert-danger alert-dismissible fade show">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            {{session('success')}}
+                                        </div>
+                                        @endif
                                         <tr align="center">
-                                            <th>product Code</th>
+                                            <th>Product Code</th>
                                             <th>Product Name</th>
                                             <th>Product Line</th>
                                             <th>Scale</th>
                                             <th>Vendor</th>
-                                            <th>Description</th>
+                                            <th width="40%">Description</th>
                                             <th>Quantity</th>
                                             <th>Buy Price</th>
                                             <th>MSRP</th>
+                                            <th width="8%">Date</th>
                                             <th><i class="fas fa-archive"></i></th>
                                         </tr>
                                     </thead>
@@ -215,16 +286,30 @@
                                         foreach ($productss as $products) {
                                             ?>
                                             <tr>
-                                                <td align="center"><?php echo $products->productCode; ?></td>
-                                                <td align="center"><?php echo $products->productName; ?></td>
-                                                <td align="center"><?php echo $products->productLine; ?></td>
-                                                <td align="center"><?php echo $products->productScale; ?></td>
-                                                <td align="center"><?php echo $products->productVendor; ?></td>
-                                                <td><?php echo $products->productDescription; ?></td>
-                                                <td align="center"><?php echo $products->quantityInStock; ?></td>
-                                                <td align="center"><?php echo $products->buyPrice; ?></td>
-                                                <td align="center"><?php echo $products->MSRP; ?></td>
-                                                <td align="center"><a class="btn" href=""><i class="fas fa-edit"></i></a></td>
+                                                <form action="/admin-stock-add/updateProducts" method="POST">
+                                                    {{csrf_field()}}
+                                                    <td align="center">
+                                                        <?php echo $products->productCode; ?>
+                                                        <input type="hidden" class="form-control bg-light border-0 small" id="productCode" placeholder="Product Code" name="productCode" value="<?php echo $products->productCode; ?>"><br>
+                                                    </td>
+                                                    <td align="center"><?php echo $products->productName; ?></td>
+                                                    <td align="center"><?php echo $products->productLine; ?></td>
+                                                    <td align="center"><?php echo $products->productScale; ?></td>
+                                                    <td align="center"><?php echo $products->productVendor; ?></td>
+                                                    <td><?php echo $products->productDescription; ?></td>
+                                                    <td align="center">
+                                                        <?php echo $products->quantityInStock; ?>
+                                                        <input type="text" class="form-control bg-light border-0 small" id="quantityInStock" placeholder="" name="quantityInStock"><br>
+                                                    </td>
+                                                    <td align="center"><?php echo $products->buyPrice; ?></td>
+                                                    <td align="center"><?php echo $products->MSRP; ?></td>
+                                                    <td align="center"><?php echo $products->productDate; ?></td>
+                                                    <td align="center">
+                                                        <button class="btn" type="submit">
+                                                            <i class="far fa-clipboard"></i>
+                                                        </button>
+                                                    </td>
+                                                </form>
                                             </tr>
                                         <?php
                                         }

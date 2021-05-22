@@ -38,6 +38,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Shopping
+            </div>
+
             <!-- Menu -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin-shopping') }}">
@@ -96,26 +101,70 @@
 
             <hr class="sidebar-divider d-none d-md-block">
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-stock') }}">
-                    <i class="fas fa-archive"></i>
-                    <span>Stock</span>
-                </a>
-            </li>
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Admin
+            </div>
+            <?php
+            $id = Auth::user()->id;
+            $employee = App\Employees::where('employeeNumber', '=', $id)->first();
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-order') }}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Order</span>
-                </a>
-            </li>
+            if ($employee->jobTitle == 'Sales Manager (NA)' || $employee->jobTitle == 'Sale Manager (EMEA)' || $employee->jobTitle == 'Sales Manager (APAC)' || $employee->jobTitle == 'Sales Rep' || strpos($employee->jobTitle, 'Sales') || $employee->jobTitle == 'President') {
+                ?>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-member') }}">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Member</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-stock') }}">
+                        <i class="fas fa-archive"></i>
+                        <span>Stock</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-order') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Order</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-payments') }}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-member') }}">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Member</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-ERM') }}">
+                        <i class="fas fa-address-book"></i>
+                        <span>ERM</span>
+                    </a>
+                </li>
+
+            <?php
+            }
+            ?>
+
+            <?php
+            if (strpos($employee->jobTitle, 'Marketing') || $employee->jobTitle == 'President') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-marketing') }}">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Marketing</span>
+                    </a>
+                </li>
+
+            <?php
+            }
+            ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -127,12 +176,12 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            <!-- <hr class="sidebar-divider d-none d-md-block"> -->
 
             <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
+            <!-- <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -156,6 +205,7 @@
                                 <?php echo $id; ?>
                                 <?php echo $employee->firstName; ?>
                                 <?php echo $employee->lastName; ?>
+                                - <?php echo $employee->jobTitle; ?>
                             </div>
                         </div>
                     </div>
@@ -195,14 +245,15 @@
                                             <span>Add Member</span></a>
                                         <hr>
                                         <tr align="center">
-                                            <th>ID</th>
-                                            <th>Name</th>
+                                            <th>Customer Number</th>
+                                            <th>Company</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
                                             <th>Phone</th>
                                             <th>Address</th>
-                                            <th>sales Rep</th>
+                                            <th>Sales Rep Employee Number</th>
                                             <th>Credit Limit</th>
+                                            <th>point</th>
                                             <th><i class="fas fa-user-cog"></i></th>
                                         </tr>
                                     </thead>
@@ -216,10 +267,10 @@
                                             ?>
                                             <tr>
                                                 <td align="center"><?php echo $customer->customerNumber; ?></td>
-                                                <td align="center"><?php echo $customer->customerName; ?></td>
-                                                <td align="center"><?php echo $customer->contactFirstName; ?></td>
-                                                <td align="center"><?php echo $customer->contactLastName; ?></td>
-                                                <td align="center"><?php echo $customer->phone; ?></td>
+                                                <td><?php echo $customer->customerName; ?></td>
+                                                <td><?php echo $customer->contactFirstName; ?></td>
+                                                <td><?php echo $customer->contactLastName; ?></td>
+                                                <td><?php echo $customer->phone; ?></td>
                                                 <td>
                                                     <?php echo $customer->addressLine1 . ' ';
                                                         if ($customer->addressLine2 != '') echo $customer->addressLine2 . ' ';
@@ -231,7 +282,13 @@
                                                 </td>
                                                 <td align="center"><?php echo $customer->salesRepEmployeeNumber; ?></td>
                                                 <td align="center"><?php echo $customer->creditLimit; ?></td>
-                                                <td align="center"><a class="btn" href=""><i class="fas fa-user-edit"></i></a></td>
+                                                <td align="center"><?php echo $customer->point; ?></td>
+
+                                                <td align="center">
+                                                    <form action="{{ route('admin-member-detail',$customer->customerNumber)}}" method="GET">
+                                                        <button class="btn" type="submit"><i class="fas fa-user-edit"></i></button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         <?php
                                         }

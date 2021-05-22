@@ -58,11 +58,17 @@
           </div>
         </div>
         @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
+        <div class="alert alert-primary alert-dismissible fade show">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           {{session('success')}}
         </div>
-       @endif
+        @endif
+        @if(session('successError'))
+        <div class="alert alert-danger alert-dismissible fade show">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{session('successError')}}
+        </div>
+        @endif
       </div>
 
     </div>

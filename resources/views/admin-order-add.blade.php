@@ -216,12 +216,12 @@
                 <div class="container-fluid">
 
                     <!-- Search -->
-                    <div class="card shadow mb-4">
+                    <!-- <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
                                 <form class="form-horizontal" method="GET" action="{{ route('admin-order') }}">
                                     <div class="input-group-append">
-                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Order Number or Status" aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
@@ -229,7 +229,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <?php $search_text = isset($_GET['txt_keyword']) ? $_GET['txt_keyword'] : ''; ?>
 
@@ -240,69 +240,76 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <div class="d-flex bd-highlight">
-                                            <div class="flex-grow-1 bd-highlight">
-                                                <a class="btn" href="{{ route('admin-order-add') }}">
-                                                    <i class="fas fa-cart-plus"></i>
-                                                    <span>Add Orders</span>
-                                                </a>
+                                            <div class="p-2 flex-grow-1 bd-highlight">
+                                                <!-- <a class="btn" href="{{ route('admin-order-add') }}"> -->
+                                                <i class="fas fa-cart-plus"></i>
+                                                <span>Add Orders</span>
+                                                <!-- </a> -->
                                             </div>
                                             <!-- Show Status -->
-                                            <div class="bd-highlight">
-                                                <a class="btn dropdown-toggle" href="#" id="ShowStatus" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-bell"></i>
-                                                    <span>Status</span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="ShowStatus">
-                                                    <?php
-                                                    $statuss = App\Orders::groupBy('status')->get();
-                                                    foreach ($statuss as $status) {
-                                                        ?>
-                                                        <form class="form-horizontal" method="GET" action="{{ route('admin-order') }}">
-                                                            <button style="font-size:small; text-align:left" class="dropdown-item" name="txt_keyword" style="" type="submit" value="<?php echo $status->status; ?>"><?php echo $status->status; ?></button>
-                                                        </form>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
+                                            <!-- <div class="bd-highlight">
+                                                <form class="form-horizontal" method="GET" action="{{ route('admin-order-detail-add') }}">
+                                                    <div class="input-group-append">
+                                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Order Number" aria-label="Search" aria-describedby="basic-addon2">
+                                                        <button class="btn btn-primary" type="submit">
+                                                            <i class="fas fa-cart-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div> -->
                                         </div>
                                         <hr>
+                                        @if(session('success'))
+                                        <div class="alert alert-danger alert-dismissible fade show">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            {{session('success')}}
+                                        </div>
+                                        @endif
                                         <tr align="center">
-                                            <th>Order Number</th>
-                                            <th>Order Date</th>
-                                            <th>Required Date</th>
-                                            <th>Shipped Date</th>
-                                            <th>Status</th>
-                                            <th width="40%">Comments</th>
-                                            <th>Customer Number</th>
-                                            <th><i class="fas fa-file-alt"></i></th>
+                                            <th width="1%">Order Number</th>
+                                            <!-- <th>Order Date</th> -->
+                                            <th width="14%">Required Date</th>
+                                            <!-- <th>Shipped Date</th> -->
+                                            <!-- <th>Status</th> -->
+                                            <th>Comments</th>
+                                            <th width="12%">Customer Number</th>
+                                            <th width="1%"><i class="fas fa-file-alt"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $Orderss = App\Orders::where('orderNumber', 'like', '%' . $search_text . '%')
-                                            ->orwhere('status', 'like', '%' . $search_text . '%')
-                                            ->orderBy('orderNumber', 'desc')
-                                            ->get();
-                                        foreach ($Orderss as $Orders) {
-                                            ?>
-                                            <tr>
-                                                <td align="center"><?php echo $Orders->orderNumber; ?></td>
-                                                <td align="center"><?php echo $Orders->orderDate; ?></td>
-                                                <td align="center"><?php echo $Orders->requiredDate; ?></td>
-                                                <td align="center"><?php echo $Orders->shippedDate; ?></td>
-                                                <td align="center"><?php echo $Orders->status; ?></td>
-                                                <td align="center"><?php echo $Orders->comments; ?></td>
-                                                <td align="center"><?php echo $Orders->customerNumber; ?></td>
-                                                <td align="center">
-                                                    <form class="form-horizontal" method="GET" action="{{ route('admin-order-edit') }}">
-                                                        <button style="text-align:center" class="btn" name="txt_keyword" type="submit" value="<?php echo $Orders->orderNumber; ?>"><i class="far fa-file-alt"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                        }
-                                        ?>
+                                        <form action="/admin-order-add/addOrder" method="POST">
+                                            {{csrf_field()}}
+                                            <td align="center">
+                                                <?php
+                                                $Orders = App\Orders::orderBy('orderNumber', 'desc')->first();
+                                                $orderNumbers = $Orders->orderNumber + 1;
+                                                echo $orderNumbers;
+                                                ?>
+                                                <div>
+                                                    <input type="hidden" class="form-control bg-light border-0 small" id="orderNumber" placeholder="<?php echo $orderNumbers; ?>" name="orderNumber" value="<?php echo $orderNumbers; ?>"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="requiredDate" placeholder="Required Date (Y-m-d)" name="requiredDate"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="comments" placeholder="Comments" name="comments"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <div>
+                                                    <input type="text" class="form-control bg-light border-0 small" id="customerNumber" placeholder="Customer Number" name="customerNumber"><br>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <button class="btn" type="submit">
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </button>
+                                            </td>
+                                        </form>
                                     </tbody>
                                 </table>
                             </div>
@@ -354,7 +361,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
+    <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

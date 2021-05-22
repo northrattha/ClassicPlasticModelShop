@@ -39,7 +39,7 @@
                   <h1 class="h4 text-gray-900 mb-4">Classic Plastic Model Shop</h1>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-user" id="exampleInputusernameid" name="usernameid" placeholder="User ID">
+                  <input type="text" class="form-control form-control-user" id="exampleInputusernameid" name="usernameid" placeholder="Employee Number">
                 </div>
                 <div class="form-group">
                   <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">

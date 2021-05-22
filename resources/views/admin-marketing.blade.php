@@ -36,10 +36,15 @@
             </a>
 
             <!-- Divider -->
-            <!-- <hr class="sidebar-divider d-none d-md-block"> -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Shopping
+            </div>
 
             <!-- Menu -->
-            <!-- <li class="nav-item active">
+            <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin-shopping') }}">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Shopping</span>
@@ -95,27 +100,71 @@
             </li>
 
             <hr class="sidebar-divider d-none d-md-block">
-            
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-stock') }}">
-                    <i class="fas fa-archive"></i>
-                    <span>Stock</span>
-                </a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-order') }}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Order</span>
-                </a>
-            </li>
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Admin
+            </div>
+            <?php
+            $id = Auth::user()->id;
+            $employee = App\Employees::where('employeeNumber', '=', $id)->first();
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin-member') }}">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Member</span>
-                </a>
-            </li> -->
+            if ($employee->jobTitle == 'Sales Manager (NA)' || $employee->jobTitle == 'Sale Manager (EMEA)' || $employee->jobTitle == 'Sales Manager (APAC)' || $employee->jobTitle == 'Sales Rep' || strpos($employee->jobTitle, 'Sales') || $employee->jobTitle == 'President') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-stock') }}">
+                        <i class="fas fa-archive"></i>
+                        <span>Stock</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-order') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Order</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-payments') }}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-member') }}">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Member</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-ERM') }}">
+                        <i class="fas fa-address-book"></i>
+                        <span>ERM</span>
+                    </a>
+                </li>
+
+            <?php
+            }
+            ?>
+
+            <?php
+            if (strpos($employee->jobTitle, 'Marketing') || $employee->jobTitle == 'President') {
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin-marketing') }}">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Marketing</span>
+                    </a>
+                </li>
+
+            <?php
+            }
+            ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -127,12 +176,12 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            <!-- <hr class="sidebar-divider d-none d-md-block"> -->
 
             <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
+            <!-- <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -156,6 +205,7 @@
                                 <?php echo $id; ?>
                                 <?php echo $employee->firstName; ?>
                                 <?php echo $employee->lastName; ?>
+                                - <?php echo $employee->jobTitle; ?>
                             </div>
                         </div>
                     </div>
@@ -169,9 +219,9 @@
                     <div class="card shadow mb-4">
                         <div class="card-body" style="margin: -0.25rem;">
                             <div class="table-responsive">
-                                <form class="form-horizontal" method="GET" action="{{ route('admin-shopping') }}">
+                                <form class="form-horizontal" method="GET" action="{{ route('admin-marketing') }}">
                                     <div class="input-group-append">
-                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search..." aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small" name="txt_keyword" placeholder="Search... Product Code, Vendor or Scale" aria-label="Search" aria-describedby="basic-addon2">
                                         <button class="btn btn-primary" type="submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
@@ -189,31 +239,125 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="p-2 flex-grow-1 bd-highlight">
+                                                <!-- <a class="btn" href="{{ route('admin-marketing') }}"> -->
+                                                <i class="fas fa-bullhorn"></i>
+                                                <span>Promotions</span>
+                                                <!-- </a> -->
+                                            </div>
+                                        </div>
+                                        <hr>
                                         <tr align="center">
+                                            <th>Product Code</th>
                                             <th>Product Name</th>
+                                            <th>Product Line</th>
                                             <th>Scale</th>
                                             <th>Vendor</th>
-                                            <th>Description</th>
-                                            <th>List Price</th>
+                                            <!-- <th>Description</th> -->
                                             <th>Quantity</th>
-                                            <th><i class="fas fa-shopping-cart"></i></th>
+                                            <th>Buy Price</th>
+                                            <th>MSRP</th>
+                                            <th>Expiry Date</th>
+                                            <!-- <th><i class="fas fa-bullhorn"></i></th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $productss = App\Products::where('productVendor', 'like', '%' . $search_text . '%')
-                                            ->orWhere('productScale', 'like', '%' . $search_text . '%')
+                                        $promotionss = App\Promotions::select('*')->get();
+                                        foreach ($promotionss as $promotions) {
+                                            $productss = App\Products::Where('productCode', '=', $promotions->productCode)->get();
+                                            foreach ($productss as $products) {
+                                                ?>
+                                                <tr>
+                                                    <td align="center"><?php echo $products->productCode; ?></td>
+                                                    <td align="center"><?php echo $products->productName; ?></td>
+                                                    <td align="center"><?php echo $products->productLine; ?></td>
+                                                    <td align="center"><?php echo $products->productScale; ?></td>
+                                                    <td align="center"><?php echo $products->productVendor; ?></td>
+                                                    <!-- <td><?php echo $products->productDescription; ?></td> -->
+                                                    <td align="center"><?php echo $products->quantityInStock; ?></td>
+                                                    <td align="center"><?php echo $products->buyPrice; ?></td>
+                                                    <td align="center"><?php echo $products->MSRP; ?></td>
+                                                    <td align="center"><?php echo $promotions->expiryDate; ?></td>
+
+                                                    <!-- <td align="center"><a class="btn" href=""><i class="fas fa-times"></i></a></td> -->
+
+                                                </tr>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <div class="d-flex bd-highlight">
+                                            <div class="p-2 flex-grow-1 bd-highlight">
+                                                <!-- <a class="btn" href="{{ route('admin-marketing') }}"> -->
+                                                <i class="fas fa-archive"></i>
+                                                <span>Products</span>
+                                                <!-- </a> -->
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <tr align="center">
+                                            <th>Product Code</th>
+                                            <th>Product Name</th>
+                                            <th>Product Line</th>
+                                            <th>Scale</th>
+                                            <th>Vendor</th>
+                                            <!-- <th>Description</th> -->
+                                            <th>Quantity</th>
+                                            <th>Buy Price</th>
+                                            <th>MSRP</th>
+                                            <th>Expiry Date</th>
+                                            <th><i class="fas fa-bullhorn"></i></th>
+                                        </tr>
+                                        @if(session('success'))
+                                        <div class="alert alert-danger alert-dismissible fade show">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            {{session('success')}}
+                                        </div>
+                                        @endif
+                                    </thead>
+                                    <tbody>
+
+                                        {{csrf_field()}}
+                                        <?php
+                                        $productss = App\Products::Where('productCode', 'like', '%' . $search_text . '%')
+                                            // ->orwhere('productVendor', 'like', '%' . $search_text . '%')
+                                            // ->orWhere('productScale', 'like', '%' . $search_text . '%')
                                             ->get();
                                         foreach ($productss as $products) {
                                             ?>
                                             <tr>
-                                                <td align="center"><?php echo $products->productName; ?></td>
-                                                <td align="center"><?php echo $products->productScale; ?></td>
-                                                <td align="center"><?php echo $products->productVendor; ?></td>
-                                                <td><?php echo $products->productDescription; ?></td>
-                                                <td align="center"><?php echo $products->buyPrice; ?></td>
-                                                <td align="center"><?php echo $products->quantityInStock; ?></td>
-                                                <td align="center"><a class="btn btn-primary" href=""><i class="fas fa-shopping-cart"></i></a></td>
+                                                <form action="/admin-marketing/addPromotion" method="POST">
+                                                    {{csrf_field()}}
+                                                    <td align="center">
+                                                        <?php echo $products->productCode; ?>
+                                                        <input type="hidden" class="form-control bg-light border-0 small" id="productCode" placeholder="Product Code" name="productCode" value="<?php echo $products->productCode; ?>"><br>
+                                                    </td>
+                                                    <td align="center"><?php echo $products->productName; ?></td>
+                                                    <td align="center"><?php echo $products->productLine; ?></td>
+                                                    <td align="center"><?php echo $products->productScale; ?></td>
+                                                    <td align="center"><?php echo $products->productVendor; ?></td>
+                                                    <!-- <td><?php echo $products->productDescription; ?></td> -->
+                                                    <td align="center"><?php echo $products->quantityInStock; ?></td>
+                                                    <td align="center"><?php echo $products->buyPrice; ?></td>
+                                                    <td align="center"><?php echo $products->MSRP; ?></td>
+                                                    <td align="center">
+                                                        <div>
+                                                            <input type="text" class="form-control bg-light border-0 small" id="expiryDate" placeholder="Required Date (Y-m-d)" name="expiryDate"><br>
+                                                        </div>
+                                                    </td>
+                                                    <td align="center">
+                                                        <button class="btn" type="submit">
+                                                            <i class="fas fa-tags"></i>
+                                                        </button>
+                                                    </td>
+                                                </form>
                                             </tr>
                                         <?php
                                         }

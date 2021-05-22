@@ -34,52 +34,69 @@
         <div class="card o-hidden border-0 shadow-lg my-5">
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
-            <form class="user" action="{{ route('admin-member-register') }}" method="GET">
+            <form class="user" action="/admin-member-register/addMember" method="POST">
+              {{csrf_field()}}
               <div class="p-5">
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">Create an Member</h1>
+                  @if(session('success'))
+                  <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{session('success')}}
+                  </div>
+                  @endif
                 </div>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputusernameid" placeholder="User ID" name="customerNumber" onKeyUp="IsNumeric(this.value,this)"><br>
+                  <input type="text" class="form-control form-control-user" id="customerNumber" placeholder="Customer Number" name="customerNumber"><br>
+                  @if(session('successCustomerNumber'))
+                  <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{session('successCustomerNumber')}}
+                  </div>
+                  @endif
                 </div>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputcompany" placeholder="Company" name="customerName"><br>
+                  <input type="text" class="form-control form-control-user" id="customerName" placeholder="Company Name" name="customerName"><br>
                 </div>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputfirstName" placeholder="First name" name="contactFirstName"><br>
+                  <input type="text" class="form-control form-control-user" id="contactFirstName" placeholder="First name" name="contactFirstName"><br>
                 </div>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputlastName" placeholder="Last name" name="contactLastName"><br>
+                  <input type="text" class="form-control form-control-user" id="contactLastName" placeholder="Last name" name="contactLastName"><br>
                 </div>
                 <div>
-                  <input type="tel" class="form-control form-control-user" id="exampleInputphone" placeholder="Phone" name="phone"><br>
+                  <input type="tel" class="form-control form-control-user" id="phone" placeholder="Phone" name="phone"><br>
                 </div>
-                <!-- <div> -->
-                <!-- <input type="text" class="form-control form-control-user" id="exampleInputsaleRep" placeholder="Sales Rep" name="salesRepEmployeeNumber" onKeyUp="IsNumeric(this.value,this)"><br> -->
-                <!-- </div> -->
+                <div>
+                  <?php $id = Auth::user()->id; ?>
+                  <input type="text" class="form-control form-control-user" id="salesRepEmployeeNumber" placeholder="Sales Rep" name="salesRepEmployeeNumber" value="<?php echo $id ?>"><br>
+                </div>
+                <div>
+                  <input type="text" class="form-control form-control-user" id="creditLimit" placeholder="Credit Limit" name="creditLimit"><br>
+                </div>
                 <p>ADDRESS</p>
                 <hr>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputaddressline1" placeholder="Address1" name="addressLine1"><br>
+                  <input type="text" class="form-control form-control-user" id="addressLine1" placeholder="Address1" name="addressLine1"><br>
                 </div>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputaddressline2" placeholder="Address2" name="addressLine2"><br>
+                  <input type="text" class="form-control form-control-user" id="addressLine2" placeholder="Address2" name="addressLine2"><br>
                 </div>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputcity" placeholder="City" name="city"><br>
+                  <input type="text" class="form-control form-control-user" id="city" placeholder="City" name="city"><br>
                 </div>
                 <div>
-                  <input type="text" class="form-control form-control-user" id="exampleInputstate" placeholder="State" name="state"><br>
+                  <input type="text" class="form-control form-control-user" id="state" placeholder="State" name="state"><br>
                   <div>
-                    <input type="text" class="form-control form-control-user" id="exampleInputcountry" placeholder="Country" name="country"><br>
+                    <input type="text" class="form-control form-control-user" id="country" placeholder="Country" name="country"><br>
                   </div>
                   <div>
-                    <input type="text" class="form-control form-control-user" id="exampleInputpostalCode" placeholder="PostalCode" name="postalCode"><br>
+                    <input type="text" class="form-control form-control-user" id="postalCode" placeholder="PostalCode" name="postalCode"><br>
                   </div>
                 </div>
                 <hr>
                 <div>
-                  <input type="submit" name="Add" href="{{ route('admin-member-register') }}" class="btn btn-primary btn-user btn-block" value="SING UP">
+                  <input type="submit" name="Add" class="btn btn-primary btn-user btn-block" value="SING UP">
                 </div>
                 <hr>
 
@@ -88,7 +105,8 @@
               </div>
             </form>
 
-            <script>
+            <!-- <script>
+              ///// onKeyUp="IsNumeric(this.value,this)"  /////
               function IsNumeric(sText, obj) {
                 var ValidChars = "0123456789";
                 var IsNumber = true;
@@ -104,39 +122,7 @@
                   obj.value = sText.substr(0, sText.length - 1);
                 }
               }
-            </script>
-
-            <?php
-            $id = Auth::user()->id;
-            $data = [
-              'customerNumber' => isset($_GET['customerNumber']) ? $_GET['customerNumber'] : '',
-              'customerName' =>   isset($_GET['customerName']) ? $_GET['customerName'] : '',
-              'contactLastName' =>  isset($_GET['contactLastName']) ? $_GET['contactLastName'] : '',
-              'contactFirstName' =>  isset($_GET['contactFirstName']) ? $_GET['contactFirstName'] : '',
-              'phone' =>  isset($_GET['phone']) ? $_GET['phone'] : '',
-              'addressLine1' =>  isset($_GET['addressLine1']) ? $_GET['addressLine1'] : '',
-              'addressLine2' =>  isset($_GET['addressLine2']) ? $_GET['addressLine2'] : '',
-              'city' =>  isset($_GET['city']) ? $_GET['city'] : '',
-              'state' =>  isset($_GET['state']) ? $_GET['state'] : '',
-              'postalCode' =>  isset($_GET['postalCode']) ? $_GET['postalCode'] : '',
-              'country' =>  isset($_GET['country']) ? $_GET['country'] : '',
-              'salesRepEmployeeNumber' =>  $id,
-              'creditLimit' => 0.0,
-            ];
-            if (
-              $data['customerNumber'] != ''
-              // $data['customerName'] != '' &&
-              // $data['contactLastName'] != '' &&
-              // $data['contactFirstName'] != '' &&
-              // $data['phone'] != '' &&
-              // $data['addressLine1'] != '' &&
-              // $data['city'] != '' &&
-              // $data['postalCode'] != '' &&
-              // $data['country'] != ''
-            ) {
-              $customers = App\Customers::insert($data);
-            }
-            ?>
+            </script> -->
 
           </div>
         </div>
